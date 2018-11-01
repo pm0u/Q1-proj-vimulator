@@ -9,16 +9,22 @@
   /* base00 default text color/fg */
   --fg: #657b83;
   /* base01 = higlighted/emphasized text */
-  --fg-highlights: #586e75
+  --fg-highlights: #586e75;
 }
+
+
 
 html, body {
   width: 100%;
   height: 100%;
+  font-family: 'Fira Mono', monospace;
+  color: var(--fg);
 }
 
 body {
+  margin: 0;
   display: grid;
+  background: var(--bg);
   grid-template-areas: 'header header header'
                         'lessons vim hints'
                         'footer footer footer';
@@ -28,6 +34,8 @@ body {
 }
 
 div#vim-content {
+  border-left: 2px dashed var(--base1);
+  border-right: 2px dashed var(--base1);
   grid-area: vim;
   display: grid;
   grid-template-areas: 'vim'
@@ -41,10 +49,16 @@ div#lessons {
 
 footer {
   grid-area: footer;
+  text-align: center;
+  background: var(--bg-highlights);
+  border-top: 2px solid var(--base1);
 }
 
 header {
+  padding: 0 .5em 0 .5em;
   grid-area: header;
+  background: var(--bg-highlights);
+  border-bottom: 2px solid var(--base1);
 }
 
 div#hints {
@@ -57,4 +71,5 @@ div#vim-text {
 
 div#command-bar {
   grid-area: command-bar;
+  padding: 0 .5em 0 .5em;
 }
