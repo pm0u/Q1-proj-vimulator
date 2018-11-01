@@ -1,0 +1,60 @@
+:root {
+  /* solarized light colors*/
+  /* base3 = bg color */
+  --bg: #fdf6e3;
+  /*base2 bg highlights */
+  --bg-highlights: #eee8d5;
+  /* base1 = comments */
+  --base1: #93a1a1;
+  /* base00 default text color/fg */
+  --fg: #657b83;
+  /* base01 = higlighted/emphasized text */
+  --fg-highlights: #586e75
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  display: grid;
+  grid-template-areas: 'header header header'
+                        'lessons vim hints'
+                        'footer footer footer';
+  grid-template-columns: 300px auto 300px;
+  grid-template-rows: auto 1fr auto;
+
+}
+
+div#vim-content {
+  grid-area: vim;
+  display: grid;
+  grid-template-areas: 'vim'
+                        'command-bar';
+  grid-template-rows: 1fr min-content;
+}
+
+div#lessons {
+  grid-area: lessons;
+}
+
+footer {
+  grid-area: footer;
+}
+
+header {
+  grid-area: header;
+}
+
+div#hints {
+  grid-area: hints;
+}
+
+div#vim-text {
+  grid-area: vim;
+}
+
+div#command-bar {
+  grid-area: command-bar;
+}
