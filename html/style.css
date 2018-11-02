@@ -41,6 +41,8 @@ div#vim-content {
   grid-template-areas: 'vim'
                         'command-bar';
   grid-template-rows: 1fr min-content;
+  cursor: none;
+  padding: 0 .5em 0 .5em;
 }
 
 div#lessons {
@@ -71,5 +73,9 @@ div#vim-text {
 
 div#command-bar {
   grid-area: command-bar;
-  padding: 0 .5em 0 .5em;
+}
+
+.mode-normal-cursor {
+  background: var(--fg);
+  color: var(--bg);
 }
