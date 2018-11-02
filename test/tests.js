@@ -22,3 +22,12 @@ describe('setCursor', function () {
     expect(main.placeCursor('this is some text','this is some text'.length)).to.equal('this is some tex<span class="mode-normal-cursor">t</span>')
   })
 })
+
+describe('removeCursor', function () {
+  it('should return string', function () {
+    expect(main.removeCursor()).to.be.a('string')
+  })
+  it('should undo placeCursor', function() {
+    expect(main.removeCursor(main.placeCursor('hi there'))).to.equal('hi there')
+  })
+})

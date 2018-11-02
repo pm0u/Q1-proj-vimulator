@@ -1,9 +1,3 @@
-//let vimText = document.getElementById('vim-text')
-//let vimTextIH = vimText.innerHTML
-let cursorRow = 0;
-let cursorCol = 0;
-
-
 function placeCursor ( text='', cursorCol=0) {
   // takes desired cursor col/row
   // places within provided text
@@ -11,14 +5,16 @@ function placeCursor ( text='', cursorCol=0) {
   let spanPre = '<span class="mode-normal-cursor">'
   let spanPost = '</span>'
   let newText = ''
-  cursorCol = ( cursorCol >= text.length ? text.length - 1 : cursorCol)
+  cursorCol = (cursorCol >= text.length ? text.length - 1 : cursorCol)
   newText = `${text.substring(0,cursorCol)}${spanPre}${text.charAt(cursorCol)}${spanPost}${text.substring(cursorCol+1)}`
   return newText
 }
 
-function removeCursor () {
+function removeCursor (text='') {
   // takes text w/ span, returns text w/o span
-
+  let newText = ''
+  newText = text.replace(/<[^>]+>/g, '')
+  return newText
 }
 
 function moveCursor () {
@@ -26,7 +22,6 @@ function moveCursor () {
   // determines if can move to next char
   // changes row value if needed
   // focus on single line for now
-
 }
 
 function setCursor (element, cursorCol=0, cursorRow=0) {
@@ -37,4 +32,11 @@ function setCursor (element, cursorCol=0, cursorRow=0) {
 
 function getRow (element, row=0) {
     return element.children[row]
+}
+
+module.exports = {
+  placeCursor: placeCursor,
+  removeCursor: removeCursor,
+  getRow: getRow,
+  moveCursor: moveCursor
 }
