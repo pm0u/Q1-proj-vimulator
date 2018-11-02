@@ -79,3 +79,22 @@ div#command-bar {
   background: var(--fg);
   color: var(--bg);
 }
+
+nav ul {
+  padding: 0;
+}
+
+nav ul, nav li {
+  display: inline;
+  list-style: none;
+  padding: 0 .4em 0 .4em;
+}
+
+#main-heading {
+  display: inline-block;
+}
+
+a {
+  text-decoration: none;
+  color: var(--base1);
+}
