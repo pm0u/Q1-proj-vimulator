@@ -10,6 +10,10 @@
   --fg: #657b83;
   /* base01 = higlighted/emphasized text */
   --fg-highlights: #586e75;
+  /* links color */
+  --link: #268bd2;
+  /* accent */
+  --accent: #d33682;
 }
 
 
@@ -28,7 +32,7 @@ body {
   grid-template-areas: 'header header header'
                         'lessons vim hints'
                         'footer footer footer';
-  grid-template-columns: 300px auto 300px;
+  grid-template-columns: minmax(10%, 200px) minmax(70%, auto) minmax(20%, 500px);
   grid-template-rows: auto 1fr auto;
 
 }
@@ -41,7 +45,6 @@ div#vim-content {
   grid-template-areas: 'vim'
                         'command-bar';
   grid-template-rows: 1fr min-content;
-  cursor: none;
   padding: 0 .5em 0 .5em;
 }
 
@@ -68,6 +71,7 @@ div#hints {
 }
 
 div#vim-text {
+  padding: .2em 0 .2em 0;
   grid-area: vim;
 }
 
@@ -96,5 +100,13 @@ nav ul, nav li {
 
 a {
   text-decoration: none;
-  color: var(--base1);
+  color: var(--link);
+}
+
+a:hover {
+  color: var(--accent);
+}
+
+#dicator {
+  font-style: italic;
 }
