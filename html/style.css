@@ -31,7 +31,8 @@ body {
   background: var(--bg);
   grid-template-areas: 'header header header'
                         'lessons vim hints'
-                        'footer footer footer';
+                        'footer footer footer'
+                        'mocha mocha mocha';
   grid-template-columns: minmax(10%, 200px) minmax(70%, auto) minmax(20%, 500px);
   grid-template-rows: auto 1fr auto;
 
@@ -109,4 +110,8 @@ a:hover {
 
 #dicator {
   font-style: italic;
+}
+
+#mocha {
+  grid-area: mocha;
 }
