@@ -13,7 +13,7 @@ let unit1 = {
       ],
       keyHandler(event) {
         if (event.key === 'l') {
-          unit1.moveCursorR()
+          unit1.cursorMove(event.key)
         }
       },
       initKeys() {
@@ -32,13 +32,6 @@ let unit1 = {
     let spanPre = '<span class="mode-normal-cursor">'
     let spanPost = '</span>'
     let newText = []
-    //console.log(lesson.lessonText.length)
-    //if (lesson.cCol >= lesson.lessonText[lesson.cRow].length && lesson.cRow < lesson.lessonText.length) {
-    //  lesson.cCol = 0
-    //  lesson.cRow++
-    //} else if (lesson.cCol === lesson.lessonText[lesson.cRow].length) {
-    //  lesson.cCol--
-    //}
     for (let i in lesson.lessonText) {
       if (i == lesson.cRow) {
         newText.push(`${lesson.lessonText[lesson.cRow].substring(0,lesson.cCol)}${spanPre}${lesson.lessonText[lesson.cRow].charAt(lesson.cCol)}${spanPost}${lesson.lessonText[lesson.cRow].substring(lesson.cCol+1)}`)
@@ -52,7 +45,6 @@ let unit1 = {
     let currLessonForProps = this.lessons[this.currLesson]
     let currFinishCond = currLessonForProps.finishCond
     for (let i in currFinishCond) {
-      //console.log('currprop', i, 'finishcond', currFinishCond[i], 'currentval', currLessonForProps[i])
       if (currFinishCond[i] !== currLessonForProps[i]) {
         return false
       }
@@ -60,13 +52,23 @@ let unit1 = {
     return true
   },
   saveToStorage() {},
-  moveCursorR() {
-    this.lessons[this.currLesson].cCol += 1
-    let vimText = document.getElementById('vim-text')
+  cursorMove(key) {
+    this.cursorMoverHJKL(key)
     let newHTML = this.genHTML(this.currLesson)
     this.writeToTextArea(newHTML)
     if (this.finisher()) {
       console.log('lesson complete!!!!')
+    }
+  },
+  cursorMoverHJKL(key) {
+    let activeLesson = unit1.lessons[this.currLesson]
+    switch (key) {
+      case 'l':
+        activeLesson.cCol += 1
+    }
+    if (activeLesson.cCol >= activeLesson.lessonText[activeLesson.cRow].length && activeLesson.lessonText.length > activeLesson.cRow) {
+      activeLesson.cCol = 0
+      activeLesson.cRow += 1
     }
   },
   initLesson(lessonNum = this.currLesson) {

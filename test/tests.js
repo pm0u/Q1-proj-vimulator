@@ -31,7 +31,7 @@ describe('unit.resetLesson()', () => {
   })
 })
 
-describe('moveCursorR()', () => {
+describe('Cursor Movement', () => {
   it('moves cursor to right when "l" pressed', () => {
     unit1.initLesson()
     document.dispatchEvent(lKeyDown)
@@ -45,10 +45,10 @@ describe('moveCursorR()', () => {
     expect(unit1.lessons.lesson1.cCol).to.equal(0)
     expect(unit1.lessons.lesson1.cRow).to.equal(1)
   })
-  //it("stops cursor when attempting to move past available text", () => {
-  //  unit1.initLesson()
-  //  for (let i = 0; i < 24; i++) { document.dispatchEvent(lKeyDown)}
-  //  expect(unit1.lessons.lesson1.cCol).to.equal(12)
-  //  expect(unit1.lessons.lesson1.cRow).to.equal(1)
-  //})
+  it("stops cursor when attempting to move past available text", () => {
+    unit1.initLesson()
+    for (let i = 0; i < 25; i++) { document.dispatchEvent(lKeyDown)}
+    expect(unit1.lessons.lesson1.cCol).to.equal(12)
+    expect(unit1.lessons.lesson1.cRow).to.equal(1)
+  })
 })
