@@ -22,14 +22,17 @@ let unit1 = {
     }
   },
   currLesson: 'lesson1',
-  genHTML(lessonNum = 'lesson1') {
+  genHTML( lessonNum = 'lesson1' ) {
     let lesson = this.lessons[lessonNum]
     let spanPre = '<span class="mode-normal-cursor">'
     let spanPost = '</span>'
     let newText = []
-    if (lesson.cCol >= lesson.lessonText[lesson.cRow].length) {
+    console.log(lesson.lessonText.length)
+    if (lesson.cCol >= lesson.lessonText[lesson.cRow].length && lesson.cRow < lesson.lessonText.length) {
       lesson.cCol = 0
-      lesson.cRow += 1
+      lesson.cRow++
+    } else if  ( lesson.cCol === lesson.lessonText[lesson.cRow].length ) {
+      lesson.cCol--
     }
     for (let i in lesson.lessonText) {
       if (i == lesson.cRow) {

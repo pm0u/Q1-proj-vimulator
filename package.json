@@ -1,14 +1,25 @@
 {
   "name": "Q1-proj-vimdicator",
   "version": "1.0.0",
-  "description": "",
+  "description": "~~## 1. Minesweeper~~",
   "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
   "scripts": {
-    "test":  "mocha"
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pm0u/Q1-proj-vimdicator.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pm0u/Q1-proj-vimdicator/issues"
+  },
+  "homepage": "https://github.com/pm0u/Q1-proj-vimdicator#readme",
   "dependencies": {
     "chai": "^4.2.0",
     "mocha": "^5.2.0"
