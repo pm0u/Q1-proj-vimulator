@@ -11,10 +11,23 @@ describe('page load', function() {
   })
 })
 
-describe('initLesson()', function() {
+describe('unit.initLesson()', function() {
   it('puts lesson text on screen', function() {
     unit1.initLesson()
     expect(vimText.innerText).to.equal(unit1.lessons.lesson1.lessonText.join('\n'))
+  })
+})
+
+describe('unit.resetLesson()', () => {
+  it('puts lesson back to start condition', () => {
+    document.dispatchEvent(lKeyDown)
+    unit1.resetLesson()
+    console.log(unit1.lessons[unit1.currLesson])
+    expect(unit1.lessons[unit1.currLesson].lessonText).to.deep.equal(unit1.lessons[unit1.currLesson].changes[0].lessonText)
+    expect(unit1.lessons[unit1.currLesson].cCol).to.equal(unit1.lessons[unit1.currLesson].changes[0].cCol)
+  })
+  it('makes vim text area reflect this', () => {
+    expect(vimText.innerHTML).to.equal('<span class="mode-normal-cursor">T</span>his is line1<br>this is line2')
   })
 })
 
@@ -26,7 +39,9 @@ describe('moveCursorR()', () => {
   })
   it('wraps line when get to end of line & there is a line after', () => {
     unit1.initLesson()
-    for (let i = 0; i < 12; i++) { document.dispatchEvent(lKeyDown)}
+    for (let i = 0; i < 12; i++) {
+      document.dispatchEvent(lKeyDown)
+    }
     expect(unit1.lessons.lesson1.cCol).to.equal(0)
     expect(unit1.lessons.lesson1.cRow).to.equal(1)
   })
