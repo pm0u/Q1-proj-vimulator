@@ -4,6 +4,8 @@ const should = chai.should()
 let vimText = document.getElementById('vim-text')
 let lKeyDown = new Event('keydown')
 lKeyDown.key = 'l'
+let hKeyDown = new Event('keydown')
+hKeyDown.key = 'h'
 
 describe('page load', function() {
   it('worked?', function() {
@@ -14,7 +16,7 @@ describe('page load', function() {
 describe('unit.initLesson()', function() {
   it('puts lesson text on screen', function() {
     unit1.initLesson()
-    expect(vimText.innerText).to.equal(unit1.lessons.lesson1.lessonText.join('\n'))
+    expect(vimText.innerText).to.equal(unit1.lessons[unit1.currLesson].lessonText.join('\n'))
   })
 })
 
@@ -27,28 +29,45 @@ describe('unit.resetLesson()', () => {
     expect(unit1.lessons[unit1.currLesson].cCol).to.equal(unit1.lessons[unit1.currLesson].changes[0].cCol)
   })
   it('makes vim text area reflect this', () => {
-    expect(vimText.innerHTML).to.equal('<span class="mode-normal-cursor">T</span>his is line1<br>this is line2')
+    expect(vimText.innerHTML).to.equal(unit1.genHTML(0))
   })
 })
 
-describe('Cursor Movement', () => {
+describe('Lesson 1 -- move right', () => {
   it('moves cursor to right when "l" pressed', () => {
     unit1.resetLesson()
     document.dispatchEvent(lKeyDown)
-    expect(unit1.lessons.lesson1.cCol).to.equal(1)
+    expect(unit1.lessons[unit1.currLesson].cCol).to.equal(1)
   })
-  it('wraps line when get to end of line & there is a line after', () => {
+  it("stops cursor when attempting to move past EOL", () => {
     unit1.resetLesson()
-    for (let i = 0; i < 13; i++) {
+    for (let i = 0; i < 50; i++) {
       document.dispatchEvent(lKeyDown)
     }
-    expect(unit1.lessons.lesson1.cCol).to.equal(0)
-    expect(unit1.lessons.lesson1.cRow).to.equal(1)
+    expect(unit1.lessons[unit1.currLesson].cCol).to.equal(unit1.lessons[unit1.currLesson].lessonText[0].length -1)
   })
-  it("stops cursor when attempting to move past available text", () => {
+  it('recognizes when lesson is finished', () => {
     unit1.resetLesson()
-    for (let i = 0; i < 26; i++) { document.dispatchEvent(lKeyDown)}
-    expect(unit1.lessons.lesson1.cCol).to.equal(12)
-    expect(unit1.lessons.lesson1.cRow).to.equal(1)
+    for (let i = 0; i < 12; i++) {
+      document.dispatchEvent(lKeyDown)
+    }
+    expect(unit1.lessons[unit1.currLesson].finished).to.equal(1)
+
+  })
+})
+
+describe('Lesson 2 -- move left', () => {
+  it('moves cursor to left when h pressed', () => {
+    unit1.currLesson = 1
+    unit1.initLesson(1)
+    document.dispatchEvent(hKeyDown)
+    expect(unit1.lessons[1].cCol).to.equal(unit1.lessons[1].lessonText[0].length -2)
+  })
+  it('stops cursor when attempting to move past beginning of line', () => {
+    unit1.resetLesson()
+    for (let i = 0; i < 17; i++) {
+      document.dispatchEvent(hKeyDown)
+    }
+    expect(unit1.lessons[1].cCol).to.equal(0)
   })
 })

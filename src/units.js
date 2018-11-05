@@ -1,15 +1,16 @@
 let unit1 = {
-  lessons: {
-    lesson1: {
+  name: 'Basic Movement',
+  lessons: [{
+      name: 'Moving right',
       cRow: 0,
       cCol: 0,
       finishCond: {
-        cCol: 12,
+        cCol: 47,
         cRow: 0
       },
+      finished: 0,
       lessonText: [
-        'This is line1',
-        'this is line2'
+        'Move the cursor to the end of the line using "l"'
       ],
       keyHandler(event) {
         if (event.key === 'l') {
@@ -22,12 +23,41 @@ let unit1 = {
       changes: [{
         cRow: 0,
         cCol: 0,
-        lessonText: ['This is line1', 'this is line2']
-      }],
+        lessonText: [
+          'Move the cursor to the end of the line using "l"'
+        ]
+      }]
     },
-  },
-  currLesson: 'lesson1',
-  genHTML(lessonNum = 'lesson1') {
+    {
+      name: 'Moving Left',
+      cRow: 0,
+      cCol: 49,
+      finishCond: {
+        cCol: 0,
+        cRow: 0
+      },
+      lessonText: [
+        'Move cursor to the beginning of the line using "h"'
+      ],
+      keyHandler(event) {
+        if (event.key === 'h') {
+          unit1.cursorMove(event.key)
+        }
+      },
+      initKeys() {
+        document.addEventListener('keydown', this.keyHandler)
+      },
+      changes: [{
+        cRow: 0,
+        cCol: 12,
+        lessonText: [
+          'Move cursor to the beginning of the line using "h"'
+        ]
+      }],
+    }
+  ],
+  currLesson: 0,
+  genHTML(lessonNum = 0) {
     let lesson = this.lessons[lessonNum]
     let spanPre = '<span class="mode-normal-cursor">'
     let spanPost = '</span>'
@@ -49,6 +79,7 @@ let unit1 = {
         return false
       }
     }
+    currLessonForProps.finished = 1
     return true
   },
   saveToStorage() {},
@@ -64,23 +95,29 @@ let unit1 = {
     let activeLesson = unit1.lessons[this.currLesson]
     switch (key) {
       case 'l':
-        activeLesson.cCol += 1
+        activeLesson.cCol++
+        break
+      case 'h':
+        activeLesson.cCol--
+        break
     }
-    if (activeLesson.cCol >= activeLesson.lessonText[activeLesson.cRow].length && activeLesson.cRow < activeLesson.lessonText.length - 1) {
-      activeLesson.cCol = 0
-      activeLesson.cRow += 1
-    } else if ( activeLesson.cCol >= activeLesson.lessonText[activeLesson.cRow].length && activeLesson.cRow === activeLesson.lessonText.length - 1 )
+    if (activeLesson.cCol >= activeLesson.lessonText[activeLesson.cRow].length) {
       activeLesson.cCol--
+    } else if (activeLesson.cCol < 0) {
+      activeLesson.cCol = 0
+    }
   },
+
   initLesson(lessonNum = this.currLesson) {
     this.lessons[lessonNum].initKeys()
-    this.writeToTextArea(this.genHTML(this.currLesson))
+    this.writeToTextArea(this.genHTML(lessonNum))
   },
   writeToTextArea(html) {
     let vimText = document.getElementById('vim-text')
     vimText.innerHTML = html
   },
   resetLesson(lessonNum = this.currLesson) {
+    console.log(lessonNum)
     let currLessonForProps = this.lessons[lessonNum]
     let startState = currLessonForProps.changes[0]
     for (let i in startState) {
