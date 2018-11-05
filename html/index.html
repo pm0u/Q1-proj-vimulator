@@ -15,7 +15,9 @@
   <header>
     <nav>
       <ul>
-        <li><h3 id='main-heading'>:VIM<span id='dicator'>ulator</span></h3></li>
+        <li>
+          <h3 id='main-heading'>:VIM<span id='dicator'>ulator</span></h3>
+        </li>
         <li><a href='#'>resources</a></li>
         <li><a href='#'>about</a></li>
       </ul>
@@ -23,15 +25,24 @@
   </header>
 
   <div id='lessons'>
-    <a href='#' id='lesson1'>Lesson 1</a><br>
-    <a href='#' id='lesson2'>Lesson 2</a>
+    <details open>
+      <summary>Basic Movement
+      </summary>
+      <ul id='lesson-list'>
+        <li><a href='#' id='u1l1'>Lesson 1</a></li>
+        <li><a href='#' id='u1l1'>Lesson 2</a></li>
+      </ul>
   </div>
 
   <div id='vim-content'>
+    <div id='line-nos'>
+    </div>
     <div id='vim-text'>
     </div>
     <div id='command-bar'>
-      <p>--NORMAL--</p>
+      <p id='mode'>--NORMAL--</p>
+      <div id='pos-div'>
+      </div>
     </div>
   </div>
 

@@ -1,11 +1,18 @@
+// chai commands
 const assert = chai.assert
 const expect = chai.expect
 const should = chai.should()
+//
+// elements on page
 let vimText = document.getElementById('vim-text')
+let posDiv = document.getElementById('pos-div')
+//
+// key event bindings
 let lKeyDown = new Event('keydown')
 lKeyDown.key = 'l'
 let hKeyDown = new Event('keydown')
 hKeyDown.key = 'h'
+//
 
 describe('page load', function() {
   it('worked?', function() {
@@ -33,6 +40,40 @@ describe('unit.resetLesson()', () => {
   })
 })
 
+describe('unit.changeCurrLesson', () => {
+  it('changes unit.currLesson', () => {
+    unit1.changeCurrLesson(1)
+    expect(unit1.currLesson).to.equal(1)
+    unit1.changeCurrLesson(0)
+    expect(unit1.currLesson).to.equal(0)
+  })
+})
+describe('unit.updateCursorPosDisplay()', () => {
+  it('modifies div that is cursor & row position', () => {
+    unit1.updateCursorPosDisplay(1, 0)
+    expect(posDiv.innerText).to.equal('2,1')
+  })
+  it('overwrites contents', () => {
+    unit1.updateCursorPosDisplay(2,0)
+    expect(posDiv.innerText).to.equal('3,1')
+  })
+  it('updates with current row/col', () => {
+    unit1.resetLesson()
+    document.dispatchEvent(lKeyDown)
+    expect(posDiv.innerText).to.equal('1,2')
+    document.dispatchEvent(lKeyDown)
+    expect(posDiv.innerText).to.equal('1,3')
+    document.dispatchEvent(lKeyDown)
+    expect(posDiv.innerText).to.equal('1,4')
+  })
+  it('displays cursor position with lesson init/reset', function () {
+    unit1.resetLesson()
+    expect(posDiv.innerText).to.equal('1,1')
+
+  })
+})
+
+
 describe('Lesson 1 -- move right', () => {
   it('moves cursor to right when "l" pressed', () => {
     unit1.resetLesson()
@@ -44,11 +85,16 @@ describe('Lesson 1 -- move right', () => {
     for (let i = 0; i < 50; i++) {
       document.dispatchEvent(lKeyDown)
     }
-    expect(unit1.lessons[unit1.currLesson].cCol).to.equal(unit1.lessons[unit1.currLesson].lessonText[0].length -1)
+    expect(unit1.lessons[unit1.currLesson].cCol).to.equal(unit1.lessons[unit1.currLesson].lessonText[0].length - 1)
+  })
+  it('recognizes when lesson is not finished', () => {
+    unit1.resetLesson()
+    expect(unit1.lessons[unit1.currLesson].finished).to.equal(0)
+    expect(unit1.finisher()).to.equal(false)
   })
   it('recognizes when lesson is finished', () => {
     unit1.resetLesson()
-    for (let i = 0; i < 12; i++) {
+    for (let i = 0; i < 50; i++) {
       document.dispatchEvent(lKeyDown)
     }
     expect(unit1.lessons[unit1.currLesson].finished).to.equal(1)
@@ -59,15 +105,29 @@ describe('Lesson 1 -- move right', () => {
 describe('Lesson 2 -- move left', () => {
   it('moves cursor to left when h pressed', () => {
     unit1.currLesson = 1
-    unit1.initLesson(1)
+    //unit1.initLesson(1)
+    unit1.initLesson()
     document.dispatchEvent(hKeyDown)
-    expect(unit1.lessons[1].cCol).to.equal(unit1.lessons[1].lessonText[0].length -2)
+    expect(unit1.lessons[1].cCol).to.equal(unit1.lessons[1].lessonText[0].length - 2)
   })
   it('stops cursor when attempting to move past beginning of line', () => {
     unit1.resetLesson()
-    for (let i = 0; i < 17; i++) {
+    for (let i = 0; i < 50; i++) {
       document.dispatchEvent(hKeyDown)
     }
     expect(unit1.lessons[1].cCol).to.equal(0)
+  })
+  it('recognizes when lesson is not finished', () => {
+    unit1.resetLesson()
+    expect(unit1.lessons[unit1.currLesson].finished).to.equal(0)
+    expect(unit1.finisher()).to.equal(false)
+  })
+  it('recognizes when lesson is finished', () => {
+    unit1.resetLesson()
+    for (let i = 0; i < 50; i++) {
+      document.dispatchEvent(hKeyDown)
+    }
+    expect(unit1.lessons[unit1.currLesson].finished).to.equal(1)
+
   })
 })

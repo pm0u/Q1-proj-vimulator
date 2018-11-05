@@ -4,7 +4,7 @@
   --bg: #fdf6e3;
   /*base2 bg highlights */
   --bg-highlights: #eee8d5;
-  /* base1 = comments */
+  /* base1 = comments, line numbers */
   --base1: #93a1a1;
   /* base00 default text color/fg */
   --fg: #657b83;
@@ -43,20 +43,22 @@ div#vim-content {
   border-right: 2px dashed var(--base1);
   grid-area: vim;
   display: grid;
-  grid-template-areas: 'vim'
-                        'command-bar';
-  grid-template-rows: 1fr min-content;
-  padding: 0 .5em 0 .5em;
+  grid-template-areas: 'line-nos vim'
+                        'command-bar command-bar';
+  grid-template-rows: minmax(400px,1fr) min-content;
+  grid-template-columns: min-content auto;
+  padding: 0;
 }
 
-div#lessons {
+#lessons {
   grid-area: lessons;
+  padding: .1em;
 }
 
 footer {
   grid-area: footer;
   text-align: center;
-  background: var(--bg-highlights);
+  background: var(--bg);
   border-top: 2px solid var(--base1);
 }
 
@@ -67,22 +69,53 @@ header {
   border-bottom: 2px solid var(--base1);
 }
 
-div#hints {
+#hints {
   grid-area: hints;
 }
 
-div#vim-text {
+#vim-text, #line-nos {
   padding: .2em 0 .2em 0;
+}
+
+#vim-text {
   grid-area: vim;
 }
 
-div#command-bar {
+#line-nos {
+  grid-area: line-nos;
+  padding-right: .2em;
+  padding-left: .5em;
+  background-color: var(--bg-highlights);
+}
+
+#command-bar {
   grid-area: command-bar;
+  display: grid;
+  grid-template-areas: 'mode posdisplay';
+  background-color: var(--bg-highlights);
+  padding-top: .1em;
+}
+
+#pos-div {
+  grid-area: posdisplay;
+  margin: auto;
+
+}
+
+#mode {
+  grid-area: mode;
+  margin: 0;
+  padding: 0 0 0 .5em;
+
 }
 
 .mode-normal-cursor {
   background: var(--fg);
   color: var(--bg);
+}
+
+.line-no {
+  color: var(--base1);
 }
 
 nav ul {
@@ -114,4 +147,12 @@ a:hover {
 
 #mocha {
   grid-area: mocha;
+}
+
+#lessons ul li {
+  list-style: none;
+  padding: 0;
+}
+#lessons ul {
+  margin: 0;
 }

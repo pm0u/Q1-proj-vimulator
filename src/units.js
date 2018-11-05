@@ -23,6 +23,7 @@ let unit1 = {
       changes: [{
         cRow: 0,
         cCol: 0,
+        finished: 0,
         lessonText: [
           'Move the cursor to the end of the line using "l"'
         ]
@@ -49,7 +50,8 @@ let unit1 = {
       },
       changes: [{
         cRow: 0,
-        cCol: 12,
+        cCol: 49,
+        finished: 0,
         lessonText: [
           'Move cursor to the beginning of the line using "h"'
         ]
@@ -59,6 +61,7 @@ let unit1 = {
   currLesson: 0,
   genHTML(lessonNum = 0) {
     let lesson = this.lessons[lessonNum]
+    let spanPreLineNo = '<span class="line-no">'
     let spanPre = '<span class="mode-normal-cursor">'
     let spanPost = '</span>'
     let newText = []
@@ -69,6 +72,7 @@ let unit1 = {
         newText.push(lesson.lessonText[i])
       }
     }
+    this.addLineNos(newText)
     return newText.join('<br>')
   },
   finisher() {
@@ -84,9 +88,10 @@ let unit1 = {
   },
   saveToStorage() {},
   cursorMove(key) {
+    let activeLesson = unit1.lessons[this.currLesson]
     this.cursorMoverHJKL(key)
-    let newHTML = this.genHTML(this.currLesson)
-    this.writeToTextArea(newHTML)
+    this.writeToTextArea(this.genHTML(this.currLesson))
+    this.updateCursorPosDisplay(activeLesson.cRow, activeLesson.cCol)
     if (this.finisher()) {
       console.log('lesson complete!!!!')
     }
@@ -111,13 +116,22 @@ let unit1 = {
   initLesson(lessonNum = this.currLesson) {
     this.lessons[lessonNum].initKeys()
     this.writeToTextArea(this.genHTML(lessonNum))
+    this.updateCursorPosDisplay(this.lessons[lessonNum].cRow,this.lessons[lessonNum].cCol)
+  },
+  changeCurrLesson(lessonNum) {
+    this.currLesson = lessonNum
+  },
+  changeLesson(lessonNum) {
+    this.changeCurrLesson(lessonNum)
+    this.initLesson()
+  },
+  changeLessonFromLink(id) {
   },
   writeToTextArea(html) {
     let vimText = document.getElementById('vim-text')
     vimText.innerHTML = html
   },
   resetLesson(lessonNum = this.currLesson) {
-    console.log(lessonNum)
     let currLessonForProps = this.lessons[lessonNum]
     let startState = currLessonForProps.changes[0]
     for (let i in startState) {
@@ -125,4 +139,19 @@ let unit1 = {
     }
     this.initLesson()
   },
+  updateCursorPosDisplay(row,col) {
+    let posDiv= document.getElementById('pos-div')
+    posDiv.innerText = `${row+1},${col+1}`
+  },
+  addLineNos(text) {
+    let spanPre = '<span class="line-no">'
+    let spanPost = '</span>'
+    let lineNosDiv = document.getElementById('line-nos')
+    let newText = []
+
+    for (let i=0; i<text.length; i++) {
+      newText.push(`${spanPre}${i+1}${spanPost}`)
+    }
+    lineNosDiv.innerHTML = newText.join('<br>')
+  }
 }
