@@ -33,21 +33,21 @@ describe('unit.resetLesson()', () => {
 
 describe('Cursor Movement', () => {
   it('moves cursor to right when "l" pressed', () => {
-    unit1.initLesson()
+    unit1.resetLesson()
     document.dispatchEvent(lKeyDown)
     expect(unit1.lessons.lesson1.cCol).to.equal(1)
   })
   it('wraps line when get to end of line & there is a line after', () => {
-    unit1.initLesson()
-    for (let i = 0; i < 12; i++) {
+    unit1.resetLesson()
+    for (let i = 0; i < 13; i++) {
       document.dispatchEvent(lKeyDown)
     }
     expect(unit1.lessons.lesson1.cCol).to.equal(0)
     expect(unit1.lessons.lesson1.cRow).to.equal(1)
   })
   it("stops cursor when attempting to move past available text", () => {
-    unit1.initLesson()
-    for (let i = 0; i < 25; i++) { document.dispatchEvent(lKeyDown)}
+    unit1.resetLesson()
+    for (let i = 0; i < 26; i++) { document.dispatchEvent(lKeyDown)}
     expect(unit1.lessons.lesson1.cCol).to.equal(12)
     expect(unit1.lessons.lesson1.cRow).to.equal(1)
   })

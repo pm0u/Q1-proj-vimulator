@@ -66,10 +66,11 @@ let unit1 = {
       case 'l':
         activeLesson.cCol += 1
     }
-    if (activeLesson.cCol >= activeLesson.lessonText[activeLesson.cRow].length && activeLesson.lessonText.length > activeLesson.cRow) {
+    if (activeLesson.cCol >= activeLesson.lessonText[activeLesson.cRow].length && activeLesson.cRow < activeLesson.lessonText.length - 1) {
       activeLesson.cCol = 0
       activeLesson.cRow += 1
-    }
+    } else if ( activeLesson.cCol >= activeLesson.lessonText[activeLesson.cRow].length && activeLesson.cRow === activeLesson.lessonText.length - 1 )
+      activeLesson.cCol--
   },
   initLesson(lessonNum = this.currLesson) {
     this.lessons[lessonNum].initKeys()
