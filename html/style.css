@@ -54,20 +54,25 @@ main#resources {
   overflow-y: scroll;
 }
 
-div#vim-content {
-  border-left: 2px dashed var(--base1);
-  border-right: 2px dashed var(--base1);
+div#vim-box {
   grid-area: vim;
+  position: relative;
+}
+
+div#vim-content {
+  height: 100%;
   display: grid;
   grid-template-areas: 'line-nos vim'
     'command-bar command-bar';
   grid-template-rows: minmax(400px, 1fr) min-content;
   grid-template-columns: min-content auto;
   padding: 0;
+  position: relative;
 }
 
 #lessons {
   grid-area: lessons;
+  border-right: 2px dashed var(--base1);
   padding: .1em;
 }
 
@@ -90,6 +95,7 @@ header {
 
 #hints {
   grid-area: hints;
+  border-left: 2px dashed var(--base1);
   overflow-y: scroll;
   padding: 0 .5em 0 .5em;
 }
@@ -203,6 +209,29 @@ ul#footer-content li {
 span.emph {
   font-style: italic;
   font-weight: bold;
+}
+
+.finish-div {
+  background-color: var(--bg-highlights);
+  filter: opacity(90%);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  padding: 1em;
+  border-radius: 5px;
+}
+
+.finish-div h3 {
+  text-align: center;
+}
+
+.finish-div p {
+  text-align: center;
+}
+
+.blur {
+  filter: blur(2px);
 }
 
 a#home {
