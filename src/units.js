@@ -96,15 +96,15 @@ let unit1 = {
     this.lessons[this.currLesson].killKeys()
     return true
   },
-  saveToStorage() {
+  saveToStorage(userName = 'user1') {
     let vimStorage = window.localStorage
-    vimStorage.setItem('units', JSON.stringify(unit1))
+    vimStorage.setItem(userName, JSON.stringify(unit1))
   },
-  updateFromStorage() {
+  updateFromStorage(userName = 'user1') {
     let vimStorage = window.localStorage
-    let unitRetrieved = JSON.parse(vimStorage.units)
-    console.log(unitRetrieved)
+    let unitRetrieved = JSON.parse(vimStorage[userName])
     this.recursiveUpdater(unit1, unitRetrieved)
+    this.initLesson()
   },
   recursiveUpdater(object, storageObj) {
     let newObj = object
@@ -182,7 +182,7 @@ let unit1 = {
     posDiv.innerText = `${row+1},${col+1}`
   },
   setHints() {
-    let hintsDiv = document.getElementById('hints')
+    let hintsDiv = document.getElementById('hints-content')
     hintsDiv.innerHTML = unit1.lessons[this.currLesson].hints
   },
   finishNotice() {
