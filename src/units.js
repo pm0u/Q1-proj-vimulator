@@ -47,7 +47,7 @@ let unit1 = {
         'Move cursor to the beginning of the line using "h"'
       ],
       keyHandler(event) {
-        if (event.key === 'h') {
+        if (event.key === 'h' || event.key === 'l') {
           unit1.cursorMove(event.key)
         }
       },

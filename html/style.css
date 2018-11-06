@@ -200,6 +200,15 @@ ul#footer-content li {
     border-left: 1px solid #ccc;
 }
 
+span.emph {
+  font-style: italic;
+  font-weight: bold;
+}
+
+a#home {
+  color: var(--fg-highlights);
+}
+
 /* width */
 ::-webkit-scrollbar {
   width: 10px;
@@ -207,15 +216,15 @@ ul#footer-content li {
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: var(--bg-highlights);
+  background: var(--bg);
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: var(--base1);
+  background: var(--bg-highlights);
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--fg-highlights);
+  background: var(--base1);
 }
