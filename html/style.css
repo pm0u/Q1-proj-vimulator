@@ -16,8 +16,6 @@
   --accent: #d33682;
 }
 
-
-
 html, body {
   width: 100%;
   height: 100%;
@@ -30,12 +28,30 @@ body {
   display: grid;
   background: var(--bg);
   grid-template-areas: 'header header header'
-                        'lessons vim hints'
-                        'footer footer footer'
-                        'mocha mocha mocha';
+    'lessons vim hints'
+    'footer footer footer'
+    'mocha mocha mocha';
   grid-template-columns: minmax(10%, 200px) minmax(70%, auto) minmax(20%, 500px);
   grid-template-rows: auto 1fr auto min-content;
+}
 
+aside#resources-links {
+  grid-area: lessons;
+}
+
+main#resources ul {
+  list-style: none;
+}
+
+main#resources ul li {
+  padding-top: .1em;
+}
+
+main#resources {
+  grid-area: vim;
+  border-left: 2px dashed var(--base1);
+  padding: .1em .5em .1em .5em;
+  overflow-y: scroll;
 }
 
 div#vim-content {
@@ -44,8 +60,8 @@ div#vim-content {
   grid-area: vim;
   display: grid;
   grid-template-areas: 'line-nos vim'
-                        'command-bar command-bar';
-  grid-template-rows: minmax(400px,1fr) min-content;
+    'command-bar command-bar';
+  grid-template-rows: minmax(400px, 1fr) min-content;
   grid-template-columns: min-content auto;
   padding: 0;
 }
@@ -60,6 +76,9 @@ footer {
   text-align: center;
   background: var(--bg);
   border-top: 2px solid var(--base1);
+  display: flex;
+  flex-grow: 0;
+  justify-content: center;
 }
 
 header {
@@ -71,6 +90,8 @@ header {
 
 #hints {
   grid-area: hints;
+  overflow-y: scroll;
+  padding: 0 .5em 0 .5em;
 }
 
 #vim-text, #line-nos {
@@ -79,6 +100,7 @@ header {
 
 #vim-text {
   grid-area: vim;
+  padding-left: .2em;
 }
 
 #line-nos {
@@ -99,14 +121,12 @@ header {
 #pos-div {
   grid-area: posdisplay;
   margin: auto;
-
 }
 
 #mode {
   grid-area: mode;
   margin: 0;
   padding: 0 0 0 .5em;
-
 }
 
 .mode-normal-cursor {
@@ -153,6 +173,49 @@ a:hover {
   list-style: none;
   padding: 0;
 }
+
 #lessons ul {
   margin: 0;
+}
+
+div#footer-list {
+  overflow: hidden;
+}
+
+ul#footer-content {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-left: -5px;
+  list-style: none;
+  padding: 0;
+}
+
+ul#footer-content li {
+    flex-grow: 0;
+    margin: .25em 0;
+    padding: 0 1em;
+    text-align: center;
+    border-left: 1px solid #ccc;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: var(--bg-highlights);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: var(--base1);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: var(--fg-highlights);
 }

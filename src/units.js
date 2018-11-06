@@ -8,7 +8,7 @@ let unit1 = {
         cCol: 47,
         cRow: 0
       },
-      finished: 0,
+      finished: false,
       lessonText: [
         'Move the cursor to the end of the line using "l"'
       ],
@@ -20,10 +20,15 @@ let unit1 = {
       initKeys() {
         document.addEventListener('keydown', this.keyHandler)
       },
+      killKeys() {
+        document.removeEventListener('keydown', this.keyHandler)
+      },
+      hints:
+            '<h4>Movement in Vim</h4><p>An important and unique feature of vim to understand is <a href="https://en.wikibooks.org/wiki/Learning_the_vi_Editor/Vim/Modes">modes</a>. Vim will always open in NORMAL mode. Normal mode is for movement and manipulation of text. Movement is controlled by the h j k and l keys. Think of these like arrow keys. The "l" key will move the cursor to the right. Note that the cursor will not wrap to the next line when you reach the end. The numbers at the bottom of the text area represent the current row and column of the cursor and they will change as it moves. Try it out!</p><details><summary>Additional Hints</summary><p> Press the L key repeatedly (or hold) to move the cursor to the end of the line to complete the lesson</p></details>',
       changes: [{
         cRow: 0,
         cCol: 0,
-        finished: 0,
+        finished: false,
         lessonText: [
           'Move the cursor to the end of the line using "l"'
         ]
@@ -37,6 +42,7 @@ let unit1 = {
         cCol: 0,
         cRow: 0
       },
+      finished: false,
       lessonText: [
         'Move cursor to the beginning of the line using "h"'
       ],
@@ -48,10 +54,13 @@ let unit1 = {
       initKeys() {
         document.addEventListener('keydown', this.keyHandler)
       },
+      killKeys() {
+        document.removeEventListener('keydown', this.keyHandler)
+      },
       changes: [{
         cRow: 0,
         cCol: 49,
-        finished: 0,
+        finished: false,
         lessonText: [
           'Move cursor to the beginning of the line using "h"'
         ]
@@ -83,10 +92,30 @@ let unit1 = {
         return false
       }
     }
-    currLessonForProps.finished = 1
+    currLessonForProps.finished = true
     return true
   },
-  saveToStorage() {},
+  saveToStorage() {
+    let vimStorage = window.localStorage
+    vimStorage.setItem('units', JSON.stringify(unit1))
+  },
+  updateFromStorage() {
+    let vimStorage = window.localStorage
+    let unitRetrieved = JSON.parse(vimStorage.units)
+    console.log(unitRetrieved)
+    this.recursiveUpdater(unit1, unitRetrieved)
+  },
+  recursiveUpdater(object, storageObj) {
+    let newObj = object
+    for (let i in storageObj) {
+      if (typeof storageObj[i] === 'object' || typeof storageObj[i] === 'array') {
+        newObj[i] = this.recursiveUpdater(newObj[i], storageObj[i])
+      } else {
+        newObj[i] = storageObj[i]
+      }
+    }
+    return newObj
+  },
   cursorMove(key) {
     let activeLesson = unit1.lessons[this.currLesson]
     this.cursorMoverHJKL(key)
@@ -116,17 +145,19 @@ let unit1 = {
   initLesson(lessonNum = this.currLesson) {
     this.lessons[lessonNum].initKeys()
     this.writeToTextArea(this.genHTML(lessonNum))
-    this.updateCursorPosDisplay(this.lessons[lessonNum].cRow,this.lessons[lessonNum].cCol)
+    this.updateCursorPosDisplay(this.lessons[lessonNum].cRow, this.lessons[lessonNum].cCol)
+    this.setHints()
   },
   changeCurrLesson(lessonNum) {
     this.currLesson = lessonNum
   },
   changeLesson(lessonNum) {
+    let activeLesson = unit1.lessons[this.currLesson]
+    activeLesson.killKeys()
     this.changeCurrLesson(lessonNum)
     this.initLesson()
   },
-  changeLessonFromLink(id) {
-  },
+  changeLessonFromLink(id) {},
   writeToTextArea(html) {
     let vimText = document.getElementById('vim-text')
     vimText.innerHTML = html
@@ -139,9 +170,13 @@ let unit1 = {
     }
     this.initLesson()
   },
-  updateCursorPosDisplay(row,col) {
-    let posDiv= document.getElementById('pos-div')
+  updateCursorPosDisplay(row, col) {
+    let posDiv = document.getElementById('pos-div')
     posDiv.innerText = `${row+1},${col+1}`
+  },
+  setHints() {
+    let hintsDiv = document.getElementById('hints')
+    hintsDiv.innerHTML = unit1.lessons[this.currLesson].hints
   },
   addLineNos(text) {
     let spanPre = '<span class="line-no">'
@@ -149,7 +184,7 @@ let unit1 = {
     let lineNosDiv = document.getElementById('line-nos')
     let newText = []
 
-    for (let i=0; i<text.length; i++) {
+    for (let i = 0; i < text.length; i++) {
       newText.push(`${spanPre}${i+1}${spanPost}`)
     }
     lineNosDiv.innerHTML = newText.join('<br>')
