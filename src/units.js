@@ -96,15 +96,111 @@ let unit1 = {
     this.lessons[this.currLesson].killKeys()
     return true
   },
-  saveToStorage(userName = 'user1') {
+  saveToStorage(event) {
+    event.preventDefault()
+    let userTextBox = document.getElementById('user-name')
+    let userName = userTextBox.value
     let vimStorage = window.localStorage
     vimStorage.setItem(userName, JSON.stringify(unit1))
+    unit1.removePopUp()
   },
-  updateFromStorage(userName = 'user1') {
+  promptForSave() {
+    this.removePopUp()
+    let promptHTML = document.createElement('div')
+    promptHTML.className = 'pop-up-contents'
+
+    let promptTitle = document.createElement('h3')
+    promptTitle.innerText = 'Please enter a name to save progress'
+
+    let saveForm = document.createElement('form')
+    saveForm.id = 'saveForm'
+    saveForm.addEventListener('submit', this.saveToStorage)
+
+    let userTextBox = document.createElement('input')
+    userTextBox.className = 'subtle-textbox'
+    userTextBox.type = 'text'
+    userTextBox.name = 'username'
+    userTextBox.id = 'user-name'
+    userTextBox.pattern = '\\w{3,}'
+    userTextBox.title = 'Must be at least 3 characters. Combination of letters, numbers, and underscores.'
+    userTextBox.placeholder = '<username>'
+
+    let submitBtn = document.createElement('input')
+    submitBtn.className = 'subtle-btn'
+    submitBtn.type = 'submit'
+    submitBtn.value = 'save'
+
+    let cancelBtn = document.createElement('input')
+    cancelBtn.className = 'subtle-btn'
+    cancelBtn.type = 'button'
+    cancelBtn.value = 'cancel'
+    cancelBtn.addEventListener('click', unit1.removePopUp)
+
+    saveForm.appendChild(userTextBox)
+    saveForm.appendChild(submitBtn)
+    saveForm.appendChild(cancelBtn)
+
+    promptHTML.appendChild(promptTitle)
+    promptHTML.appendChild(saveForm)
+
+    this.popUp(promptHTML)
+  },
+  updateFromStorage(event) {
+    event.preventDefault()
+    let userSelect = document.getElementById('user-select')
+    let userSelectVal = userSelect.value
     let vimStorage = window.localStorage
-    let unitRetrieved = JSON.parse(vimStorage[userName])
-    this.recursiveUpdater(unit1, unitRetrieved)
-    this.initLesson()
+    let unitRetrieved = JSON.parse(vimStorage[userSelectVal])
+    unit1.recursiveUpdater(unit1, unitRetrieved)
+    unit1.initLesson()
+  },
+  promptForUpdate() {
+    this.removePopUp()
+    let vimStorage = window.localStorage
+    let promptHTML = document.createElement('div')
+    promptHTML.className = 'pop-up-contents'
+
+    let promptTitle = document.createElement('h3')
+    promptTitle.innerText = 'Please choose a save to load'
+
+    let loadForm = document.createElement('form')
+    loadForm.id = 'loadForm'
+    loadForm.addEventListener('submit', this.updateFromStorage)
+
+    let submitBtn = document.createElement('input')
+    submitBtn.className = 'subtle-btn'
+    submitBtn.type = 'submit'
+    submitBtn.value = 'load'
+
+    let cancelBtn = document.createElement('input')
+    cancelBtn.className = 'subtle-btn'
+    cancelBtn.type = 'button'
+    cancelBtn.value = 'cancel'
+    cancelBtn.addEventListener('click', unit1.removePopUp)
+
+    let userSelect = document.createElement('select')
+    userSelect.id = 'user-select'
+    userSelect.className = 'subtle-drop'
+
+    for (let i in vimStorage) {
+      console.log(typeof vimStorage[i])
+      if (typeof vimStorage[i] === 'string') {
+        let newOpt = document.createElement('option')
+        newOpt.value = i
+        newOpt.innerText = i
+        userSelect.appendChild(newOpt)
+      }
+    }
+
+    loadForm.appendChild(userSelect)
+    loadForm.appendChild(submitBtn)
+    loadForm.appendChild(cancelBtn)
+
+    promptHTML.appendChild(promptTitle)
+    promptHTML.appendChild(loadForm)
+
+    this.popUp(promptHTML)
+
   },
   recursiveUpdater(object, storageObj) {
     let newObj = object
@@ -117,6 +213,7 @@ let unit1 = {
     }
     return newObj
   },
+  finishKeyListenerActive: false,
   cursorMove(key) {
     let activeLesson = unit1.lessons[this.currLesson]
     this.cursorMoverHJKL(key)
@@ -147,7 +244,7 @@ let unit1 = {
     if (this.finishKeyListenerActive) {
       document.removeEventListener('keypress', unit1.finishNoticeKeyListener)
     }
-    this.removeFinishDiv()
+    this.removePopUp()
     this.lessons[lessonNum].initKeys()
     this.writeToTextArea(this.genHTML(lessonNum))
     this.updateCursorPosDisplay(this.lessons[lessonNum].cRow, this.lessons[lessonNum].cCol)
@@ -186,18 +283,13 @@ let unit1 = {
     hintsDiv.innerHTML = unit1.lessons[this.currLesson].hints
   },
   finishNotice() {
-    let finishDiv = document.createElement('div')
-    let vimContent = document.getElementById('vim-content')
-    let vimBox = document.getElementById('vim-box')
-    vimContent.className = 'blur'
-    finishDiv.className = 'finish-div'
-    finishDiv.id = 'finish-div'
-    finishDiv.innerHTML = '<h3>Lesson Complete!</h3><p>great job! press <span class=\'emph\'>r</span> to restart this lesson or <span class=\'emph\'>enter</span> to start the next lesson</p>'
-    vimBox.appendChild(finishDiv)
+    finishElement = document.createElement('div')
+    finishElement.className = 'pop-up-contents'
+    finishElement.innerHTML = '<h3>Lesson Complete!</h3><p>great job! press <span class=\'emph\'>r</span> to restart this lesson or <span class=\'emph\'>enter</span> to start the next lesson</p>'
+    this.popUp(finishElement)
     this.finishKeyListenerActive = true
     document.addEventListener('keypress', unit1.finishNoticeKeyListener)
   },
-  finishKeyListenerActive: false,
   finishNoticeKeyListener(event) {
     switch (event.key) {
       case 'Enter':
@@ -208,12 +300,21 @@ let unit1 = {
         break
     }
   },
-  removeFinishDiv() {
-    let finishDiv = document.getElementById('finish-div')
+  popUp(element) {
+    let popUpDiv = document.createElement('div')
     let vimContent = document.getElementById('vim-content')
     let vimBox = document.getElementById('vim-box')
-    if (document.contains(document.getElementById('finish-div'))) {
-      let finishDiv = document.getElementById('finish-div')
+    vimBox.appendChild(popUpDiv)
+    vimContent.className = 'blur'
+    popUpDiv.className = 'pop-up-div'
+    popUpDiv.id = 'pop-up-div'
+    popUpDiv.appendChild(element)
+  },
+  removePopUp() {
+    let vimContent = document.getElementById('vim-content')
+    let vimBox = document.getElementById('vim-box')
+    if (document.contains(document.getElementById('pop-up-div'))) {
+      let finishDiv = document.getElementById('pop-up-div')
       finishDiv.parentNode.removeChild(finishDiv)
     }
     if (vimContent.classList.contains('blur')) {

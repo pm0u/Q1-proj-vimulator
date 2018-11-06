@@ -10,6 +10,7 @@ lesson1.addEventListener('click', doLesson1)
 lesson2.addEventListener('click', doLesson2)
 save.addEventListener('click', saveEntry)
 load.addEventListener('click', loadEntry)
+resetLesson.addEventListener('click', reset)
 
 });
 
@@ -25,10 +26,13 @@ function doLesson1 (event) {
 }
 
 function saveEntry () {
-  let userName = prompt("enter a user name to save under", "user1")
-  unit1.saveToStorage(userName)
+  unit1.promptForSave()
 }
 
 function loadEntry () {
-  unit1.updateFromStorage()
+  unit1.promptForUpdate()
+}
+
+function reset () {
+  unit1.resetLesson()
 }

@@ -219,7 +219,7 @@ span.emph {
   font-weight: bold;
 }
 
-.finish-div {
+.pop-up-div {
   background-color: var(--bg-highlights);
   filter: opacity(90%);
   position: absolute;
@@ -230,13 +230,10 @@ span.emph {
   border-radius: 5px;
 }
 
-.finish-div h3 {
+.pop-up-contents {
   text-align: center;
 }
 
-.finish-div p {
-  text-align: center;
-}
 
 .blur {
   filter: blur(2px);
@@ -244,6 +241,33 @@ span.emph {
 
 a#home {
   color: var(--fg-highlights);
+}
+
+.subtle-textbox {
+  font-family: 'Fira Mono';
+  background-color: var(--bg);
+  outline: none;
+  border: none;
+  margin: .4em;
+  padding: 5px 5px;
+}
+
+.subtle-btn {
+  font-family: 'Fira Mono';
+  color: var(--fg);
+  background-color: var(--bg);
+  border: 1px solid var(--base1);
+  margin: .2em;
+}
+
+.subtle-drop {
+  font-family: 'Fira Mono';
+  background-color: var(--bg);
+  outline: none;
+  border: none;
+  margin: .2em;
+  padding: 5px 5px;
+
 }
 
 /* width */
