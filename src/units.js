@@ -134,7 +134,7 @@ let unit1 = {
     cancelBtn.className = 'subtle-btn'
     cancelBtn.type = 'button'
     cancelBtn.value = 'cancel'
-    cancelBtn.addEventListener('click', unit1.removePopUp)
+    cancelBtn.addEventListener('click', unit1.initLesson)
 
     saveForm.appendChild(userTextBox)
     saveForm.appendChild(submitBtn)
@@ -176,14 +176,13 @@ let unit1 = {
     cancelBtn.className = 'subtle-btn'
     cancelBtn.type = 'button'
     cancelBtn.value = 'cancel'
-    cancelBtn.addEventListener('click', unit1.removePopUp)
+    cancelBtn.addEventListener('click', unit1.initLesson)
 
     let userSelect = document.createElement('select')
     userSelect.id = 'user-select'
     userSelect.className = 'subtle-drop'
 
     for (let i in vimStorage) {
-      console.log(typeof vimStorage[i])
       if (typeof vimStorage[i] === 'string') {
         let newOpt = document.createElement('option')
         newOpt.value = i
@@ -240,15 +239,15 @@ let unit1 = {
     }
   },
 
-  initLesson(lessonNum = this.currLesson) {
+  initLesson() {
     if (this.finishKeyListenerActive) {
       document.removeEventListener('keypress', unit1.finishNoticeKeyListener)
     }
-    this.removePopUp()
-    this.lessons[lessonNum].initKeys()
-    this.writeToTextArea(this.genHTML(lessonNum))
-    this.updateCursorPosDisplay(this.lessons[lessonNum].cRow, this.lessons[lessonNum].cCol)
-    this.setHints()
+    unit1.removePopUp()
+    unit1.lessons[unit1.currLesson].initKeys()
+    unit1.writeToTextArea(unit1.genHTML(unit1.currLesson))
+    unit1.updateCursorPosDisplay(unit1.lessons[unit1.currLesson].cRow, unit1.lessons[unit1.currLesson].cCol)
+    unit1.setHints()
   },
   changeCurrLesson(lessonNum) {
     this.currLesson = lessonNum
@@ -304,14 +303,19 @@ let unit1 = {
     let popUpDiv = document.createElement('div')
     let vimContent = document.getElementById('vim-content')
     let vimBox = document.getElementById('vim-box')
-    vimBox.appendChild(popUpDiv)
+    let vimText = document.getElementById('vim-text')
     vimContent.className = 'blur'
     popUpDiv.className = 'pop-up-div'
     popUpDiv.id = 'pop-up-div'
     popUpDiv.appendChild(element)
+    vimBox.appendChild(popUpDiv)
+    if (vimText.innerText.match('.+')) {
+      unit1.lessons[this.currLesson].killKeys()
+    }
   },
   removePopUp() {
     let vimContent = document.getElementById('vim-content')
+    let vimText = document.getElementById('vim-text')
     let vimBox = document.getElementById('vim-box')
     if (document.contains(document.getElementById('pop-up-div'))) {
       let finishDiv = document.getElementById('pop-up-div')
