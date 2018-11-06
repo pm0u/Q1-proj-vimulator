@@ -18,7 +18,3 @@ I would like the website to mimic the look of vim in the terminal as much as pos
 
 ![style guide](https://vectr.com/tmp/b75ezVFRh/c49lkfH0h.png?width=640&height=640&select=c49lkfH0hpage0)
 
-
-### Code base
-
-I will be utilizing GitHub to host my codebase and manage version control. The repo can be viewed [here](https://github.com/pm0u/Q1-proj-vimdicator).
