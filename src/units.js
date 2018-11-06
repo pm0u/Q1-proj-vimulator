@@ -23,7 +23,7 @@ let unit1 = {
       killKeys() {
         document.removeEventListener('keydown', this.keyHandler)
       },
-      hints: '<h4>Movement in Vim</h4><p>An important and unique feature of vim to understand is <a href="https://en.wikibooks.org/wiki/Learning_the_vi_Editor/Vim/Modes">modes</a>. Vim will always open in NORMAL mode. Normal mode is for movement and manipulation of text. Movement is controlled by the h j k and l keys. Think of these like arrow keys. The "l" key will move the cursor to the right. Note that the cursor will not wrap to the next line when you reach the end. The numbers at the bottom of the text area represent the current row and column of the cursor and they will change as it moves. Try it out!</p><details><summary>Additional Hints</summary><p> Press the L key repeatedly (or hold) to move the cursor to the end of the line to complete the lesson</p></details>',
+      hints: '<h4>Movement in Vim</h4><p>An important and unique feature of vim to understand is <a href="https://en.wikibooks.org/wiki/Learning_the_vi_Editor/Vim/Modes" target="_blank">modes</a>. Vim will always open in NORMAL mode. Normal mode is for movement and manipulation of text. Movement is controlled by the h j k and l keys. Think of these like arrow keys. The "l" key will move the cursor to the right. Note that the cursor will not wrap to the next line when you reach the end. The numbers at the bottom of the text area represent the current row and column of the cursor and they will change as it moves. Try it out!</p><details><summary>Additional Hints</summary><p> Press the L key repeatedly (or hold) to move the cursor to the end of the line to complete the lesson</p></details><details><summary>Additional Resources</summary><p><a href="https://en.wikibooks.org/wiki/Learning_the_vi_Editor/Vim/Modes" target="_blank">Vim modes from Learning the Vi Editor</a></p></details>',
       changes: [{
         cRow: 0,
         cCol: 0,
@@ -144,6 +144,9 @@ let unit1 = {
   },
 
   initLesson(lessonNum = this.currLesson) {
+    if (this.finishKeyListenerActive) {
+      document.removeEventListener('keypress', unit1.finishNoticeKeyListener)
+    }
     this.removeFinishDiv()
     this.lessons[lessonNum].initKeys()
     this.writeToTextArea(this.genHTML(lessonNum))
@@ -191,8 +194,10 @@ let unit1 = {
     finishDiv.id = 'finish-div'
     finishDiv.innerHTML = '<h3>Lesson Complete!</h3><p>great job! press <span class=\'emph\'>r</span> to restart this lesson or <span class=\'emph\'>enter</span> to start the next lesson</p>'
     vimBox.appendChild(finishDiv)
+    this.finishKeyListenerActive = true
     document.addEventListener('keypress', unit1.finishNoticeKeyListener)
   },
+  finishKeyListenerActive: false,
   finishNoticeKeyListener(event) {
     switch (event.key) {
       case 'Enter':
@@ -208,7 +213,7 @@ let unit1 = {
     let vimContent = document.getElementById('vim-content')
     let vimBox = document.getElementById('vim-box')
     if (document.contains(document.getElementById('finish-div'))) {
-      let finishDiv =  document.getElementById('finish-div')
+      let finishDiv = document.getElementById('finish-div')
       finishDiv.parentNode.removeChild(finishDiv)
     }
     if (vimContent.classList.contains('blur')) {

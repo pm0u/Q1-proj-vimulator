@@ -1,20 +1,3 @@
-:root {
-  /* solarized light colors*/
-  /* base3 = bg color */
-  --bg: #fdf6e3;
-  /*base2 bg highlights */
-  --bg-highlights: #eee8d5;
-  /* base1 = comments, line numbers */
-  --base1: #93a1a1;
-  /* base00 default text color/fg */
-  --fg: #657b83;
-  /* base01 = higlighted/emphasized text */
-  --fg-highlights: #586e75;
-  /* links color */
-  --link: #268bd2;
-  /* accent */
-  --accent: #d33682;
-}
 
 html, body {
   width: 100%;
@@ -45,6 +28,11 @@ main#resources ul {
 
 main#resources ul li {
   padding-top: .1em;
+}
+
+summary {
+  cursor: pointer;
+  outline-style: none;
 }
 
 main#resources {

@@ -1,0 +1,17 @@
+:root {
+  /* solarized light colors*/
+  /* base3 = bg color */
+  --bg: #002b36;
+  /*base2 bg highlights */
+  --bg-highlights: #073642;
+  /* base1 = comments, line numbers */
+  --base1: #586e75;
+  /* base00 default text color/fg */
+  --fg: #839496;
+  /* base01 = higlighted/emphasized text */
+  --fg-highlights: #93a1a1;
+  /* links color */
+  --link: #268bd2;
+  /* accent */
+  --accent: #d33682;
+}
