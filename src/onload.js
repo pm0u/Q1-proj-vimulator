@@ -11,10 +11,13 @@ lesson2.addEventListener('click', doLesson2)
 
 });
 
-function doLesson2 () {
+function doLesson2 (event) {
   unit1.changeLesson(1)
+  event.target.blur()
+
 }
 
-function doLesson1 () {
+function doLesson1 (event) {
   unit1.changeLesson(0)
+  event.target.blur()
 }

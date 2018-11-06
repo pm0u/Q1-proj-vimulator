@@ -65,7 +65,7 @@ div#vim-content {
   grid-template-areas: 'line-nos vim'
     'command-bar command-bar';
   grid-template-rows: minmax(400px, 1fr) min-content;
-  grid-template-columns: min-content auto;
+  grid-template-columns: min-content 1fr;
   padding: 0;
   position: relative;
 }

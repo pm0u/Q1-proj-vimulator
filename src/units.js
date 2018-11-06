@@ -144,14 +144,7 @@ let unit1 = {
   },
 
   initLesson(lessonNum = this.currLesson) {
-    if (document.contains(document.getElementById('finish-div'))) {
-      let finishDiv =  document.getElementById('finish-div')
-      finishDiv.parentNode.removeChild(finishDiv)
-    }
-    let vimContent = document.getElementById('vim-content')
-    if (vimContent.classList.contains('blur')) {
-      vimContent.classList.remove('blur')
-    }
+    this.removeFinishDiv()
     this.lessons[lessonNum].initKeys()
     this.writeToTextArea(this.genHTML(lessonNum))
     this.updateCursorPosDisplay(this.lessons[lessonNum].cRow, this.lessons[lessonNum].cCol)
@@ -167,7 +160,7 @@ let unit1 = {
     this.initLesson()
   },
   nextLesson() {
-    this.changeLesson(this.currLesson + 1)
+    unit1.changeLesson(unit1.currLesson + 1)
   },
   writeToTextArea(html) {
     let vimText = document.getElementById('vim-text')
@@ -201,15 +194,12 @@ let unit1 = {
     document.addEventListener('keypress', unit1.finishNoticeKeyListener)
   },
   finishNoticeKeyListener(event) {
-    console.log(event)
     switch (event.key) {
       case 'Enter':
         unit1.nextLesson()
-        unit1.removeFinishDiv()
         break
       case 'r':
         unit1.resetLesson()
-        unit1.removeFinishDiv()
         break
     }
   },
@@ -217,10 +207,13 @@ let unit1 = {
     let finishDiv = document.getElementById('finish-div')
     let vimContent = document.getElementById('vim-content')
     let vimBox = document.getElementById('vim-box')
-    console.log(finishDiv.parentNode)
-
-    vimContent.className = ""
-    finishDiv.parentNode.removeChild(finishDiv)
+    if (document.contains(document.getElementById('finish-div'))) {
+      let finishDiv =  document.getElementById('finish-div')
+      finishDiv.parentNode.removeChild(finishDiv)
+    }
+    if (vimContent.classList.contains('blur')) {
+      vimContent.classList.remove('blur')
+    }
   },
   addLineNos(text) {
     let spanPre = '<span class="line-no">'
