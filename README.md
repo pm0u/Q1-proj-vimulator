@@ -18,3 +18,9 @@ I would like the website to mimic the look of vim in the terminal as much as pos
 
 ![style guide](https://vectr.com/tmp/b75ezVFRh/c49lkfH0h.png?width=640&height=640&select=c49lkfH0hpage0)
 
+
+### MVP / proof of concept
+
+The current proof of concept is live at http://vimulator.surge.sh/html/index.html
+
+there is admittedly still a lot to be done to make it efficient and viable.
