@@ -259,7 +259,12 @@ let unit1 = {
     this.initLesson()
   },
   nextLesson() {
-    unit1.changeLesson(unit1.currLesson + 1)
+    console.log(!!unit1.lessons[unit1.currLesson + 1])
+    if (!!unit1.lessons[unit1.currLesson + 1]) {
+      unit1.changeLesson(unit1.currLesson + 1)
+    } else {
+      unit1.initLesson()
+    }
   },
   writeToTextArea(html) {
     let vimText = document.getElementById('vim-text')

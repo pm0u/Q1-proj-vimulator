@@ -12,6 +12,8 @@ save.addEventListener('click', saveEntry)
 load.addEventListener('click', loadEntry)
 resetLesson.addEventListener('click', reset)
 
+unit1.initLesson()
+
 });
 
 function doLesson2 (event) {
