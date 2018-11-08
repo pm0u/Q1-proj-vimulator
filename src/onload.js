@@ -1,6 +1,8 @@
 document.addEventListener('DOMContentLoaded', (event) => {
 
-  //let vimText = document.getElementById('vim-text')
+  checkForColors()
+
+  let vimText = document.getElementById('vim-text')
   let lesson1 = document.getElementById('u1l1')
   let lesson2 = document.getElementById('u1l2')
   let save = document.getElementById('save')
@@ -8,6 +10,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
   let load = document.getElementById('load')
   let hintToggle = document.getElementById('hint-toggle')
   let lessonToggle = document.getElementById('lesson-toggle')
+  let darkMode = document.getElementById('change-colors')
+  let colorsStylesheet = document.getElementById('colors-stylesheet')
 
   hintToggle.addEventListener('click', toggleDiv)
   lessonToggle.addEventListener('click', toggleDiv)
@@ -16,6 +20,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
   save.addEventListener('click', saveEntry)
   load.addEventListener('click', loadEntry)
   resetLesson.addEventListener('click', reset)
+  darkMode.addEventListener('click', changeColors)
 
   unit1.initLesson()
 
@@ -88,4 +93,30 @@ function toggleDiv(event) {
       }
     }
   }
+}
+
+  function changeColors(colors) {
+    let colorsStylesheet = document.getElementById('colors-stylesheet')
+    let darkMode = document.getElementById('change-colors')
+    let localStorage = window.localStorage
+    if (colorsStylesheet.href.includes('sol-light.css')) {
+      console.log('dark mode');
+      darkMode.innerText = 'light mode'
+      colorsStylesheet.href = 'sol-dark.css'
+      localStorage.setItem('$colors', 'dark')
+    } else {
+      console.log('light mode');
+      darkMode.innerText = 'dark mode'
+      colorsStylesheet.href = 'sol-light.css'
+      localStorage.setItem('$colors', 'light')
+    }
+  }
+
+function checkForColors() {
+  let localStorage = window.localStorage
+
+  if (localStorage['$colors'] === 'dark') {
+    changeColors()
+  }
+
 }
