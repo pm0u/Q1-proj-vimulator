@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
   let vimText = document.getElementById('vim-text')
   let lesson1 = document.getElementById('u1l1')
   let lesson2 = document.getElementById('u1l2')
+  let lesson3 = document.getElementById('u1l3')
   let save = document.getElementById('save')
   let resetLesson = document.getElementById('reset')
   let load = document.getElementById('load')
@@ -17,6 +18,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
   lessonToggle.addEventListener('click', toggleDiv)
   lesson1.addEventListener('click', doLesson1)
   lesson2.addEventListener('click', doLesson2)
+  lesson3.addEventListener('click', doLesson3)
   save.addEventListener('click', saveEntry)
   load.addEventListener('click', loadEntry)
   resetLesson.addEventListener('click', reset)
@@ -34,6 +36,11 @@ function doLesson2(event) {
 
 function doLesson1(event) {
   unit1.changeLesson(0)
+  event.target.blur()
+}
+
+function doLesson3(event) {
+  unit1.changeLesson(2)
   event.target.blur()
 }
 

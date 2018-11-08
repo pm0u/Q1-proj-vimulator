@@ -1,7 +1,7 @@
 let unit1 = {
   name: 'Basic Movement',
   lessons: [{
-      name: 'Moving right',
+      name: 'Moving right - l',
       cRow: 0,
       cCol: 0,
       finishCond: {
@@ -34,7 +34,7 @@ let unit1 = {
       }]
     },
     {
-      name: 'Moving Left',
+      name: 'Moving Left - h',
       cRow: 0,
       cCol: 49,
       finishCond: {
@@ -65,6 +65,45 @@ let unit1 = {
           'Move cursor to the beginning of the line using "h"'
         ]
       }],
+    },
+    {
+      name: 'Moving Up and Down - j/k',
+      cRow: 1,
+      cCol: 10,
+      finishCond: {
+        cRow: [0, 3],
+        cCol: 0
+      },
+      finished: false,
+      lessonText: [
+        'This is a line of text',
+        'look, another one!!!!!!!',
+        'three lines!!!!',
+        'wowee so much text'
+      ],
+      keyHandler(event) {
+        if (event.key.match(/[hjkl]/)) {
+          unit1.cursorMove(event.key)
+        }
+      },
+      initKeys() {
+        document.addEventListener('keydown', this.keyHandler)
+      },
+      killKeys() {
+        document.removeEventListener('keydown', this.keyHandler)
+      },
+      hints: '<h4>Move to the left</h4><p>The "h" key will move the cursor to the left, give it a shot! (the l key will still work if you\'d like to mess around)<details><summary>Additional Hints</summary><p> Press the H key repeatedly (or hold) to move the cursor to the beginning of the line to complete the lesson</p></details>',
+      changes: [{
+        cRow: 1,
+        cCol: 10,
+        finished: false,
+        lessonText: [
+          'This is a line of text',
+          'look, another one!!!!!!!',
+          'three lines!!!!',
+          'wowee so much text'
+        ]
+      }]
     }
   ],
   currLesson: 0,
@@ -100,9 +139,9 @@ let unit1 = {
     let currFinishCond = currLessonForProps.finishCond
     for (let i in currFinishCond) {
       if ((typeof currFinishCond[i] === 'array' || typeof currFinishCond[i] === 'object') && (typeof currLessonForProps[i] !== 'array' || typeof currLessonForProps[i] !== 'object')) {
-          if (!currFinishCond[i].includes(currLessonForProps[i])) {
-            return false
-          }
+        if (!currFinishCond[i].includes(currLessonForProps[i])) {
+          return false
+        }
       } else {
         if (currFinishCond[i] !== currLessonForProps[i]) {
           return false
@@ -232,16 +271,19 @@ let unit1 = {
     let activeLesson = unit1.lessons[this.currLesson]
     switch (key) {
       case 'l':
-        activeLesson.cCol++
+        (activeLesson.cCol >= activeLesson.lessonText[activeLesson.cRow].length - 1) || activeLesson.cCol++
         break
       case 'h':
-        activeLesson.cCol--
+        (activeLesson.cCol <= 0) || activeLesson.cCol--;
         break
-    }
-    if (activeLesson.cCol >= activeLesson.lessonText[activeLesson.cRow].length) {
-      activeLesson.cCol--
-    } else if (activeLesson.cCol < 0) {
-      activeLesson.cCol = 0
+      case 'j':
+        (activeLesson.cRow >= activeLesson.lessonText.length - 1) || activeLesson.cRow++
+        (activeLesson.cCol <= activeLesson.lessonText[activeLesson.cRow].length - 1) || (activeLesson.cCol = activeLesson.lessonText[activeLesson.cRow].length -1)
+        break
+      case 'k':
+        (activeLesson.cRow === 0) || activeLesson.cRow--
+        (activeLesson.cCol <= activeLesson.lessonText[activeLesson.cRow].length - 1) || (activeLesson.cCol = activeLesson.lessonText[activeLesson.cRow].length -1)
+        break
     }
   },
 
