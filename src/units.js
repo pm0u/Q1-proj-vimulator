@@ -137,7 +137,7 @@ let unit1 = {
       killKeys() {
         document.removeEventListener('keydown', this.keyHandler)
       },
-      hints: '<h4>Moving to End and Startd of Line</h4><p>The <span class="key">j</span> & <span class="key">k</span> keys act as down and up arrow keys respectively. There are a couple interesting functionalities -- the cursor column is preserved when moving from a long line past a short line to another long line. In this example, if the cursor is on the period in line 2 and you move down two lines, you will land on the period again. You\'ll also notice that the cursor lands on the last character of the shorter line inbetween. This makes a lot of sense when bouncing between repeated lines to edit the same details.<details><summary>Additional Hints</summary><p>The <span class="key">h</span>, <span class="key">j</span>, <span class="key">k</span>, and <span class="key">l</span> keys will all work in this lesson. Try them all out! complete the lesson by moving to the first character of either the first or last line.</p></details>',
+      hints: '<h4>Moving to End and Start of Line</h4><p>The <span class="key">^</span>, <span class="key">0</span>, <span class="key">$</span> move within the current line. <span class="key">0 </span> moves to the first character of the line. <span class="key">^</span> will move to the first non-empty character (useful for indented code). <span class="key">$</span> will move to the end of the current line.<details><summary>Additional Hints</summary><p>The <span class="key">j</span> & <span class="key">k</span> keys will work in this lesson to change lines. Complete the lesson by moving to the last character of the first line.</p></details>',
       changes: [{
         cRow: 1,
         cCol: 20,
