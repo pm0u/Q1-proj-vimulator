@@ -110,6 +110,84 @@ let unit1 = {
           'and then j again to this line.'
         ],
       }]
+    },
+    {
+      name: 'Start and end of line - ^ $ 0',
+      cRow: 1,
+      cCol: 20,
+      furthestCol: 20,
+      finishCond: {
+        cRow: 0,
+        cCol: 42
+      },
+      finished: false,
+      lessonText: [
+        'Move to end of this line to end the lesson.',
+        '  try a ^ and 0 on this line',
+        'and this line to see the difference',
+      ],
+      keyHandler(event) {
+        if (event.key.match(/[jk$^0]/)) {
+          unit1.cursorMove(event.key)
+        }
+      },
+      initKeys() {
+        document.addEventListener('keydown', this.keyHandler)
+      },
+      killKeys() {
+        document.removeEventListener('keydown', this.keyHandler)
+      },
+      hints: '<h4>Moving to End and Startd of Line</h4><p>The <span class="key">j</span> & <span class="key">k</span> keys act as down and up arrow keys respectively. There are a couple interesting functionalities -- the cursor column is preserved when moving from a long line past a short line to another long line. In this example, if the cursor is on the period in line 2 and you move down two lines, you will land on the period again. You\'ll also notice that the cursor lands on the last character of the shorter line inbetween. This makes a lot of sense when bouncing between repeated lines to edit the same details.<details><summary>Additional Hints</summary><p>The <span class="key">h</span>, <span class="key">j</span>, <span class="key">k</span>, and <span class="key">l</span> keys will all work in this lesson. Try them all out! complete the lesson by moving to the first character of either the first or last line.</p></details>',
+      changes: [{
+        cRow: 1,
+        cCol: 20,
+        furthestCol: 20,
+        finished: false,
+        lessonText: [
+          'Move to end of this line to end the lesson.',
+          '  try a ^ and 0 on this line',
+          'and this line to see the difference',
+        ],
+      }]
+    },
+    {
+      name: 'Forward and backward by word separators w/W b/B e/E',
+      cRow: 1,
+      cCol: 20,
+      furthestCol: 20,
+      finishCond: {
+        cRow: 0,
+        cCol: 42
+      },
+      finished: false,
+      lessonText: [
+        'Move to end of this line to end the lesson.',
+        'try moving around on this line',
+        'and.this.line to.see.the difference',
+      ],
+      keyHandler(event) {
+        if (event.key.match(/[jkbBwWeE]/)) {
+          unit1.cursorMove(event.key)
+        }
+      },
+      initKeys() {
+        document.addEventListener('keydown', this.keyHandler)
+      },
+      killKeys() {
+        document.removeEventListener('keydown', this.keyHandler)
+      },
+      hints: '<h4>Moving to End and Startd of Line</h4><p>The <span class="key">j</span> & <span class="key">k</span> keys act as down and up arrow keys respectively. There are a couple interesting functionalities -- the cursor column is preserved when moving from a long line past a short line to another long line. In this example, if the cursor is on the period in line 2 and you move down two lines, you will land on the period again. You\'ll also notice that the cursor lands on the last character of the shorter line inbetween. This makes a lot of sense when bouncing between repeated lines to edit the same details.<details><summary>Additional Hints</summary><p>The <span class="key">h</span>, <span class="key">j</span>, <span class="key">k</span>, and <span class="key">l</span> keys will all work in this lesson. Try them all out! complete the lesson by moving to the first character of either the first or last line.</p></details>',
+      changes: [{
+        cRow: 1,
+        cCol: 20,
+        furthestCol: 20,
+        finished: false,
+        lessonText: [
+          'Move to end of this line to end the lesson.',
+          '  try a ^ and 0 on this line',
+          'and this line to see the difference',
+        ],
+      }]
     }
   ],
   currLesson: 0,
@@ -266,14 +344,14 @@ let unit1 = {
   finishKeyListenerActive: false,
   cursorMove(key) {
     let activeLesson = unit1.lessons[this.currLesson]
-    this.cursorMoverHJKL(key)
+    this.cursorMover(key)
     this.writeToTextArea(this.genHTML(this.currLesson))
     this.updateCursorPosDisplay(activeLesson.cRow, activeLesson.cCol)
     if (this.finisher()) {
       this.finishNotice()
     }
   },
-  cursorMoverHJKL(key) {
+  cursorMover(key) {
     let activeLesson = unit1.lessons[this.currLesson]
     switch (key) {
       case 'l':
@@ -300,7 +378,37 @@ let unit1 = {
           activeLesson.cCol = activeLesson.lessonText[activeLesson.cRow].length - 1
         }
         break
+      case '$':
+        activeLesson.cCol = activeLesson.lessonText[activeLesson.cRow].length - 1
+        activeLesson.furthestCol = activeLesson.cCol
+        break
+      case '0':
+        activeLesson.cCol = 0
+        activeLesson.furthestCol = activeLesson.cCol
+        break
+      case '^':
+        activeLesson.cCol = unit1.findFirstNonEmpty(activeLesson)
+        activeLesson.furthestCol = activeLesson.cCol
+        break
+      case 'w':
+        break
+      case 'W':
+        break
+      case 'b':
+        break
+      case 'B':
+        break
+      case 'e':
+        break
+      case 'E':
+        break
+
     }
+  },
+  findFirstNonEmpty(lesson) {
+    let currLine = lesson.lessonText[lesson.cRow]
+    return currLine.search(/\S/)
+
   },
   initLesson() {
     if (this.finishKeyListenerActive) {

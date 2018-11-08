@@ -3,9 +3,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
   checkForColors()
 
   let vimText = document.getElementById('vim-text')
+
   let lesson1 = document.getElementById('u1l1')
   let lesson2 = document.getElementById('u1l2')
   let lesson3 = document.getElementById('u1l3')
+  let lesson4 = document.getElementById('u1l4')
+
   let save = document.getElementById('save')
   let resetLesson = document.getElementById('reset')
   let load = document.getElementById('load')
@@ -19,6 +22,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
   lesson1.addEventListener('click', doLesson1)
   lesson2.addEventListener('click', doLesson2)
   lesson3.addEventListener('click', doLesson3)
+  lesson4.addEventListener('click', doLesson4)
   save.addEventListener('click', saveEntry)
   load.addEventListener('click', loadEntry)
   resetLesson.addEventListener('click', reset)
@@ -41,6 +45,11 @@ function doLesson1(event) {
 
 function doLesson3(event) {
   unit1.changeLesson(2)
+  event.target.blur()
+}
+
+function doLesson4(event) {
+  unit1.changeLesson(3)
   event.target.blur()
 }
 

@@ -118,6 +118,7 @@ header {
   overflow-wrap: break-word;
   line-break: loose;
   display: block;
+  white-space: pre-wrap;
 }
 
 #line-nos {
