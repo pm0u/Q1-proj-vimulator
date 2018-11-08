@@ -113,8 +113,11 @@ header {
 
 #vim-text {
   grid-area: vim;
-  padding-left: .2em;
   height:100%;
+  word-break: break-all;
+  overflow-wrap: break-word;
+  line-break: loose;
+  display: block;
 }
 
 #line-nos {

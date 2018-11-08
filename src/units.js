@@ -4,6 +4,7 @@ let unit1 = {
       name: 'Moving right - l',
       cRow: 0,
       cCol: 0,
+      furthestCol: 0,
       finishCond: {
         cCol: 47,
         cRow: 0
@@ -27,6 +28,7 @@ let unit1 = {
       changes: [{
         cRow: 0,
         cCol: 0,
+        furthestCol: 0,
         finished: false,
         lessonText: [
           'Move the cursor to the end of the line using "l"'
@@ -37,6 +39,7 @@ let unit1 = {
       name: 'Moving Left - h',
       cRow: 0,
       cCol: 49,
+      furthestCol: 49,
       finishCond: {
         cCol: 0,
         cRow: 0
@@ -60,6 +63,7 @@ let unit1 = {
       changes: [{
         cRow: 0,
         cCol: 49,
+        furthestCol: 49,
         finished: false,
         lessonText: [
           'Move cursor to the beginning of the line using "h"'
@@ -70,6 +74,7 @@ let unit1 = {
       name: 'Moving Up and Down - j/k',
       cRow: 1,
       cCol: 10,
+      furthestCol: 10,
       finishCond: {
         cRow: [0, 3],
         cCol: 0
@@ -77,7 +82,7 @@ let unit1 = {
       finished: false,
       lessonText: [
         'This is a line of text',
-        'look, another one!!!!!!!',
+        'look, another one!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!',
         'three lines!!!!',
         'wowee so much text'
       ],
@@ -96,10 +101,11 @@ let unit1 = {
       changes: [{
         cRow: 1,
         cCol: 10,
+        furthestCol: 10,
         finished: false,
         lessonText: [
           'This is a line of text',
-          'look, another one!!!!!!!',
+          'look, another one!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!',
           'three lines!!!!',
           'wowee so much text'
         ]
@@ -272,21 +278,30 @@ let unit1 = {
     switch (key) {
       case 'l':
         (activeLesson.cCol >= activeLesson.lessonText[activeLesson.cRow].length - 1) || activeLesson.cCol++
+        activeLesson.furthestCol = activeLesson.cCol
         break
       case 'h':
         (activeLesson.cCol <= 0) || activeLesson.cCol--;
+        activeLesson.furthestCol = activeLesson.cCol
         break
       case 'j':
         (activeLesson.cRow >= activeLesson.lessonText.length - 1) || activeLesson.cRow++
-        (activeLesson.cCol <= activeLesson.lessonText[activeLesson.cRow].length - 1) || (activeLesson.cCol = activeLesson.lessonText[activeLesson.cRow].length -1)
+          if (activeLesson.furthestCol <= activeLesson.lessonText[activeLesson.cRow].length - 1) {
+            activeLesson.cCol = activeLesson.furthestCol
+          } else {
+            activeLesson.cCol = activeLesson.lessonText[activeLesson.cRow].length - 1
+          }
         break
       case 'k':
         (activeLesson.cRow === 0) || activeLesson.cRow--
-        (activeLesson.cCol <= activeLesson.lessonText[activeLesson.cRow].length - 1) || (activeLesson.cCol = activeLesson.lessonText[activeLesson.cRow].length -1)
+          if (activeLesson.furthestCol <= activeLesson.lessonText[activeLesson.cRow].length - 1) {
+            activeLesson.cCol = activeLesson.furthestCol
+          } else {
+            activeLesson.cCol = activeLesson.lessonText[activeLesson.cRow].length - 1
+          }
         break
     }
   },
-
   initLesson() {
     if (this.finishKeyListenerActive) {
       document.removeEventListener('keypress', unit1.finishNoticeKeyListener)
