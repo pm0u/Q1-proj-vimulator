@@ -1,0 +1,6 @@
+body {
+  grid-template-areas: 'header header header'
+  'vim vim vim'
+  'footer footer footer';
+
+}

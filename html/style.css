@@ -23,10 +23,6 @@ body {
   overflow-x: hidden;
 }
 
-aside#resources-links {
-  grid-area: lessons;
-}
-
 main#resources ul {
   list-style: none;
 }
@@ -42,7 +38,6 @@ summary {
 
 main#resources {
   grid-area: vim;
-  border-left: 2px dashed var(--base1);
   padding: .1em .5em .1em .5em;
   overflow-y: scroll;
 }
