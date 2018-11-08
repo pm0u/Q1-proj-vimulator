@@ -45,41 +45,46 @@ function reset() {
 }
 
 function toggleDiv(event) {
+  event.target.blur()
   let divClicked = event.target
   let divClickedId = event.target.id
   let lessonDiv = document.getElementById('lessons')
   let hintDiv = document.getElementById('hints')
   let body = document.querySelector('body')
+  let noneShowing = '"header header header" "vim vim vim" "footer footer footer"'
+  let lessonsShowing = '"header header header" "lessons vim vim" "footer footer footer"'
+  let hintsShowing = '"header header header" "vim vim hints" "footer footer footer"'
+  let allShowing = '"header header header" "lessons vim hints" "footer footer footer"'
   if (divClickedId === 'lesson-toggle') {
     if (lessonDiv.style.visibility === 'visible' || lessonDiv.style.visibility === '') {
       lessonDiv.style.visibility = 'hidden'
       if (hintDiv.style.visibility === 'hidden') {
-        body.style.gridTemplateAreas = '"header header header" "vim vim vim" "footer footer footer"'
+        body.style.gridTemplateAreas = noneShowing
       } else {
-        body.style.gridTemplateAreas = '"header header header" "vim vim hints" "footer footer footer"'
+        body.style.gridTemplateAreas = hintsShowing
       }
     } else {
       lessonDiv.style.visibility = 'visible'
       if (hintDiv.style.visibility === 'hidden') {
-        body.style.gridTemplateAreas = '"header header header" "lessons vim vim" "footer footer footer"'
+        body.style.gridTemplateAreas = lessonsShowing
       } else {
-        body.style.gridTemplateAreas = '"header header header" "lessons vim hints" "footer footer footer"'
+        body.style.gridTemplateAreas = allShowing
       }
     }
   } else {
     if (hintDiv.style.visibility === 'visible' || hintDiv.style.visibility === '') {
       hintDiv.style.visibility = 'hidden'
       if (lessonDiv.style.visibility === 'hidden') {
-        body.style.gridTemplateAreas = '"header header header" "vim vim vim" "footer footer footer"'
+        body.style.gridTemplateAreas = noneShowing
       } else {
-        body.style.gridTemplateAreas = '"header header header" "lessons vim vim" "footer footer footer"'
+        body.style.gridTemplateAreas = lessonsShowing
       }
     } else {
       hintDiv.style.visibility = 'visible'
       if (lessonDiv.style.visibility === 'hidden') {
-        body.style.gridTemplateAreas = '"header header header" "vim vim hints" "footer footer footer"'
+        body.style.gridTemplateAreas = hintsShowing
       } else {
-        body.style.gridTemplateAreas = '"header header header" "lessons vim hints" "footer footer footer"'
+        body.style.gridTemplateAreas = allShowing
       }
     }
   }
