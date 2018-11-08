@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
   let lesson2 = document.getElementById('u1l2')
   let lesson3 = document.getElementById('u1l3')
   let lesson4 = document.getElementById('u1l4')
+  let lesson5 = document.getElementById('u1l5')
 
   let save = document.getElementById('save')
   let resetLesson = document.getElementById('reset')
@@ -23,6 +24,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
   lesson2.addEventListener('click', doLesson2)
   lesson3.addEventListener('click', doLesson3)
   lesson4.addEventListener('click', doLesson4)
+  lesson5.addEventListener('click', doLesson5)
   save.addEventListener('click', saveEntry)
   load.addEventListener('click', loadEntry)
   resetLesson.addEventListener('click', reset)
@@ -34,6 +36,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
 function doLesson2(event) {
   unit1.changeLesson(1)
+  event.target.blur()
+
+}
+
+function doLesson5(event) {
+  unit1.changeLesson(4)
   event.target.blur()
 
 }

@@ -153,7 +153,7 @@ let unit1 = {
     {
       name: 'Forward and backward by word separators w/W b/B e/E',
       cRow: 1,
-      cCol: 20,
+      cCol: 19,
       furthestCol: 20,
       finishCond: {
         cRow: 0,
@@ -164,6 +164,7 @@ let unit1 = {
         'Move to end of this line to end the lesson.',
         'try moving around on this line',
         'and.this.line to.see.the difference',
+          '    this line starts with white space'
       ],
       keyHandler(event) {
         if (event.key.match(/[jkbBwWeE]/)) {
@@ -184,8 +185,9 @@ let unit1 = {
         finished: false,
         lessonText: [
           'Move to end of this line to end the lesson.',
-          '  try a ^ and 0 on this line',
-          'and this line to see the difference',
+          'try moving around on this line',
+          'and.this.line to.see.the difference',
+          '    this line starts with white space'
         ],
       }]
     }
@@ -391,8 +393,12 @@ let unit1 = {
         activeLesson.furthestCol = activeLesson.cCol
         break
       case 'w':
+        activeLesson.cCol = unit1.nextWordChar(activeLesson)
+        activeLesson.furthestCol = activeLesson.cCol
         break
       case 'W':
+        activeLesson.cCol = unit1.nextWhiteSpace(activeLesson)
+        activeLesson.furthestCol = activeLesson.cCol
         break
       case 'b':
         break
@@ -405,9 +411,52 @@ let unit1 = {
 
     }
   },
+  nextWhiteSpace(lesson) {
+    let currLine = lesson.lessonText[lesson.cRow]
+
+    if (currLine.slice(lesson.cCol).search(/\s/) === -1) {
+      if (lesson.cRow < lesson.lessonText.length - 1) {
+        lesson.cRow++
+        if (lesson.lessonText[lesson.cRow][0] === " ") {
+          lesson.cCol = 0
+          return unit1.nextWhiteSpace(lesson)
+        } else {
+          return 0
+        }
+      } else {
+        return lesson.lessonText[lesson.cRow].length - 1
+      }
+    } else if (currLine.slice(lesson.cCol).search(/\s/) + lesson.cCol !== lesson.cCol) {
+      return currLine.slice(lesson.cCol).search(/\s/) + 1 + lesson.cCol
+    } else {
+      return lesson.cCol + 1
+    }
+
+  },
   findFirstNonEmpty(lesson) {
     let currLine = lesson.lessonText[lesson.cRow]
     return currLine.search(/\S/)
+
+  },
+  nextWordChar(lesson) {
+    let currLine = lesson.lessonText[lesson.cRow]
+
+    if (currLine.slice(lesson.cCol).search(/\W/) === -1) {
+      if (lesson.cRow < lesson.lessonText.length - 1) {
+        lesson.cRow++
+        return 0
+      } else {
+        return lesson.lessonText[lesson.cRow].length - 1
+      }
+    } else if (currLine.slice(lesson.cCol).search(/\W/) + lesson.cCol !== lesson.cCol) {
+      if (currLine.charAt(currLine.slice(lesson.cCol).search(/\W/) + lesson.cCol) !== " ") {
+        return currLine.slice(lesson.cCol).search(/\W/) + lesson.cCol
+      } else {
+        return currLine.slice(lesson.cCol).search(/\W/) + 1 + lesson.cCol
+      }
+    } else {
+      return lesson.cCol + 1
+    }
 
   },
   initLesson() {
