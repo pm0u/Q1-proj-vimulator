@@ -14,4 +14,8 @@
   --link: #268bd2;
   /* accent */
   --accent: #d33682;
+  /* modes color */
+  --modes: #2aa198;
+  /* keys color */
+  --keys: #cb4b16;
 }

@@ -24,7 +24,7 @@ let unit1 = {
       killKeys() {
         document.removeEventListener('keydown', this.keyHandler)
       },
-      hints: '<h4>Movement in Vim</h4><p>An important and unique feature of vim to understand is <a href="https://en.wikibooks.org/wiki/Learning_the_vi_Editor/Vim/Modes" target="_blank">modes</a>. Vim will always open in NORMAL mode. Normal mode is for movement and manipulation of text. Movement is controlled by the h j k and l keys. Think of these like arrow keys. The "l" key will move the cursor to the right. Note that the cursor will not wrap to the next line when you reach the end. The numbers at the bottom of the text area represent the current row and column of the cursor and they will change as it moves. Try it out!</p><details><summary>Additional Hints</summary><p> Press the L key repeatedly (or hold) to move the cursor to the end of the line to complete the lesson</p></details><details><summary>Additional Resources</summary><p><a href="https://en.wikibooks.org/wiki/Learning_the_vi_Editor/Vim/Modes" target="_blank">Vim modes from Learning the Vi Editor</a></p></details>',
+      hints: '<h4>Movement in Vim</h4><p>An important and unique feature of vim to understand is <a href="https://en.wikibooks.org/wiki/Learning_the_vi_Editor/Vim/Modes" target="_blank">modes</a>. Vim will always open in <span class="mode">NORMAL</span> mode. Normal mode is for movement and manipulation of text. Movement is controlled by the <span class="key">h j k</span> and <span class="key">l</span> keys. Think of these like arrow keys. The <span class="key">l</span> key will move the cursor to the right. Note that the cursor will not wrap to the next line when you reach the end. The numbers at the bottom of the text area represent the current row and column of the cursor and they will change as it moves. Try it out!</p><details><summary>Additional Hints</summary><p> Press the <span class="key">l</span> key repeatedly (or hold) to move the cursor to the end of the line to complete the lesson</p></details><details><summary>Additional Resources</summary><p><a href="https://en.wikibooks.org/wiki/Learning_the_vi_Editor/Vim/Modes" target="_blank">Vim modes from Learning the Vi Editor</a></p></details>',
       changes: [{
         cRow: 0,
         cCol: 0,
@@ -59,7 +59,7 @@ let unit1 = {
       killKeys() {
         document.removeEventListener('keydown', this.keyHandler)
       },
-      hints: '<h4>Move to the left</h4><p>The "h" key will move the cursor to the left, give it a shot! (the l key will still work if you\'d like to mess around)<details><summary>Additional Hints</summary><p> Press the H key repeatedly (or hold) to move the cursor to the beginning of the line to complete the lesson</p></details>',
+      hints: '<h4>Move to the left</h4><p>The <span class="key">h</span> key will move the cursor to the left, give it a shot! (the <span class="key">l</span> key will still work if you\'d like to mess around)<details><summary>Additional Hints</summary><p> Press the <span class="key">h</span> key repeatedly (or hold) to move the cursor to the beginning of the line to complete the lesson</p></details>',
       changes: [{
         cRow: 0,
         cCol: 49,
@@ -82,9 +82,9 @@ let unit1 = {
       finished: false,
       lessonText: [
         'This is a line of text',
-        'look, another one!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!',
-        'three lines!!!!',
-        'wowee so much text'
+        'Put the cursor on this period.',
+        'move to this line with j',
+        'and then j again to this line.'
       ],
       keyHandler(event) {
         if (event.key.match(/[hjkl]/)) {
@@ -97,7 +97,7 @@ let unit1 = {
       killKeys() {
         document.removeEventListener('keydown', this.keyHandler)
       },
-      hints: '<h4>Move to the left</h4><p>The "h" key will move the cursor to the left, give it a shot! (the l key will still work if you\'d like to mess around)<details><summary>Additional Hints</summary><p> Press the H key repeatedly (or hold) to move the cursor to the beginning of the line to complete the lesson</p></details>',
+      hints: '<h4>Moving up and Down</h4><p>The <span class="key">j</span> & <span class="key">k</span> keys act as down and up arrow keys respectively. There are a couple interesting functionalities -- the cursor column is preserved when moving from a long line past a short line to another long line. In this example, if the cursor is on the period in line 2 and you move down two lines, you will land on the period again. You\'ll also notice that the cursor lands on the last character of the shorter line inbetween. This makes a lot of sense when bouncing between repeated lines to edit the same details.<details><summary>Additional Hints</summary><p>The <span class="key">h</span>, <span class="key">j</span>, <span class="key">k</span>, and <span class="key">l</span> keys will all work in this lesson. Try them all out! complete the lesson by moving to the first character of either the first or last line.</p></details>',
       changes: [{
         cRow: 1,
         cCol: 10,
@@ -105,10 +105,10 @@ let unit1 = {
         finished: false,
         lessonText: [
           'This is a line of text',
-          'look, another one!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!',
-          'three lines!!!!',
-          'wowee so much text'
-        ]
+          'Put the cursor on this period.',
+          'move to this line with j',
+          'and then j again to this line.'
+        ],
       }]
     }
   ],
@@ -286,19 +286,19 @@ let unit1 = {
         break
       case 'j':
         (activeLesson.cRow >= activeLesson.lessonText.length - 1) || activeLesson.cRow++
-          if (activeLesson.furthestCol <= activeLesson.lessonText[activeLesson.cRow].length - 1) {
-            activeLesson.cCol = activeLesson.furthestCol
-          } else {
-            activeLesson.cCol = activeLesson.lessonText[activeLesson.cRow].length - 1
-          }
+        if (activeLesson.furthestCol <= activeLesson.lessonText[activeLesson.cRow].length - 1) {
+          activeLesson.cCol = activeLesson.furthestCol
+        } else {
+          activeLesson.cCol = activeLesson.lessonText[activeLesson.cRow].length - 1
+        }
         break
       case 'k':
         (activeLesson.cRow === 0) || activeLesson.cRow--
-          if (activeLesson.furthestCol <= activeLesson.lessonText[activeLesson.cRow].length - 1) {
-            activeLesson.cCol = activeLesson.furthestCol
-          } else {
-            activeLesson.cCol = activeLesson.lessonText[activeLesson.cRow].length - 1
-          }
+        if (activeLesson.furthestCol <= activeLesson.lessonText[activeLesson.cRow].length - 1) {
+          activeLesson.cCol = activeLesson.furthestCol
+        } else {
+          activeLesson.cCol = activeLesson.lessonText[activeLesson.cRow].length - 1
+        }
         break
     }
   },

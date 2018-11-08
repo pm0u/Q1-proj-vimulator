@@ -147,6 +147,15 @@ header {
   padding: 0 0 0 .5em;
 }
 
+span.mode {
+  color: var(--modes);
+  font-weight: bold;
+}
+span.key {
+  color: var(--keys);
+  font-weight: bold;
+}
+
 .mode-normal-cursor {
   background: var(--fg);
   color: var(--bg);
