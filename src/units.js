@@ -84,12 +84,29 @@ let unit1 = {
     this.addLineNos(newText)
     return newText.join('<br>')
   },
+  recursiveUpdater(object, storageObj) {
+    let newObj = object
+    for (let i in storageObj) {
+      if (typeof storageObj[i] === 'object' || typeof storageObj[i] === 'array') {
+        newObj[i] = this.recursiveUpdater(newObj[i], storageObj[i])
+      } else {
+        newObj[i] = storageObj[i]
+      }
+    }
+    return newObj
+  },
   finisher() {
     let currLessonForProps = this.lessons[this.currLesson]
     let currFinishCond = currLessonForProps.finishCond
     for (let i in currFinishCond) {
-      if (currFinishCond[i] !== currLessonForProps[i]) {
-        return false
+      if ((typeof currFinishCond[i] === 'array' || typeof currFinishCond[i] === 'object') && (typeof currLessonForProps[i] !== 'array' || typeof currLessonForProps[i] !== 'object')) {
+          if (!currFinishCond[i].includes(currLessonForProps[i])) {
+            return false
+          }
+      } else {
+        if (currFinishCond[i] !== currLessonForProps[i]) {
+          return false
+        }
       }
     }
     currLessonForProps.finished = true
@@ -200,17 +217,6 @@ let unit1 = {
 
     this.popUp(promptHTML)
 
-  },
-  recursiveUpdater(object, storageObj) {
-    let newObj = object
-    for (let i in storageObj) {
-      if (typeof storageObj[i] === 'object' || typeof storageObj[i] === 'array') {
-        newObj[i] = this.recursiveUpdater(newObj[i], storageObj[i])
-      } else {
-        newObj[i] = storageObj[i]
-      }
-    }
-    return newObj
   },
   finishKeyListenerActive: false,
   cursorMove(key) {
