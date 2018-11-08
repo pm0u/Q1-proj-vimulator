@@ -97,7 +97,6 @@ header {
 }
 
 #save-reset {
-  position: sticky;
   background-color: var(--bg-highlights);
   padding: .1em .5em 0 .5em;
   bottom:0;
