@@ -25,7 +25,7 @@ let unit1 = {
         document.removeEventListener('keydown', this.keyHandler)
       },
       hints: '<h4>Movement in Vim</h4><p>An important and unique feature of vim to understand is <a href="https://en.wikibooks.org/wiki/Learning_the_vi_Editor/Vim/Modes" target="_blank">modes</a>. Vim will always open in <span class="mode">NORMAL</span> mode. Normal mode is for movement and manipulation of text. Movement is controlled by the <span class="key">h j k</span> and <span class="key">l</span> keys. Think of these like arrow keys. The <span class="key">l</span> key will move the cursor to the right. Note that the cursor will not wrap to the next line when you reach the end. The numbers at the bottom of the text area represent the current row and column of the cursor and they will change as it moves. Try it out!</p><details><summary>Additional Hints</summary><p> Press the <span class="key">l</span> key repeatedly (or hold) to move the cursor to the end of the line to complete the lesson</p></details><details><summary>Additional Resources</summary><p><a href="https://en.wikibooks.org/wiki/Learning_the_vi_Editor/Vim/Modes" target="_blank">Vim modes from Learning the Vi Editor</a></p></details>',
-      changes: [{
+      changes: [{ //adding timestamp could be useful..
         cRow: 0,
         cCol: 0,
         furthestCol: 0,
